@@ -1,7 +1,8 @@
-import amom.client as client
+import amom.client
+from .client import Client
 
 
-class Connector(client.Connector):
+class Connector(Client, amom.client.Connector):
     def __init__(self):
-        super(Connector, self).__init__()
-        pass
+        Client.__init__(self)
+        amom.client.Connector.__init__(self)

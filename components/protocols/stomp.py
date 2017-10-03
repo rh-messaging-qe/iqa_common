@@ -1,4 +1,4 @@
-from amom.protocol import Protocol
+from amom.protocol.protocol import Protocol
 
 
 class Stomp(Protocol):

@@ -1,7 +1,6 @@
 from __future__ import print_function
-from inspect import stack as stack
 
-from amom.protocol import Amqp10, Mqtt, Stomp
+from components.protocols import Amqp10, Mqtt, Stomp
 from amom.node import Node
 
 
@@ -30,10 +29,6 @@ class Client:
     @property
     def get_version(self):
         yield self.version
-
-    @staticmethod
-    def _not_supported():
-        print("Function '%s' is not supported for this client." % stack()[1][3])
 
 
 class NativeClient(Client):
