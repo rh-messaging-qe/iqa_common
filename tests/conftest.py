@@ -1,7 +1,26 @@
+import os
 import pytest
+import itertools
+from components.nodes import Node
+
+#####################
+# Section: Logging #
+###################
 
 
-def pytest_addoption(parser):
+def pytest_logger_config(logger_config):
+    logger_config.add_loggers(['foo', 'bar', 'baz'], stdout_level='debug')
+    logger_config.set_log_option_default('foo,bar')
+
+
+def pytest_logger_logdirlink(config):
+    return os.path.join(os.path.dirname(__file__), 'mylogs')
+
+########################
+# Section: Add option #
+######################
+
+# def pytest_addoption(parser):
 #     # In node
 #     parser.addoption("--in_node", action="store", default="localhost", help="node for ingress connection")
 #
@@ -9,15 +28,15 @@ def pytest_addoption(parser):
 #     parser.addoption("--out_node", action="store", default="localhost", help="node for egress connection")
 #
 #     # Sender
-    parser.addoption("--senders", action="store", default="localhost", help="node where sender is running", )
-
+#    parser.addoption("--senders", action="store", default="localhost", help="node where sender is running", )
+#
 #     # Receiver
 #    parser.addoption("--receiver_node", action="store", default="localhost", help="node where receiver is running")
 #
 #     # Network model
 #     parser.addoption("--network_model", action="store", default="localhost", help="path to network_model file")
-
-
+#
+#
 # @pytest.fixture(scope="module", autouse=True)
 # def in_node(request):
 #     #return Router(request.config.getoption("in_node"))
@@ -28,72 +47,69 @@ def pytest_addoption(parser):
 #     #return Router(request.config.getoption("out_node"))
 #     pass
 #
-class A:
-    def __init__(self,b):
-        self.b = b
 
-a = A(b=[])
 
-@pytest.fixture
-def senders_1(request):
-    args = request.config.getoption("senders")
-    clients = args.split(",")
-    a.b = clients
+def parse_senders(request):
+    return request.config.getoption("senders").split(",")
+
+######################
+# Section: Fixtures #
+####################
 
 # @pytest.fixture(scope="module", autouse=True)
 # def receiver_node(request):
 #     #return Receiver(request.config.getoption("receiver_node"))
 #     pass
 
-
-import pytest
-import itertools
-import components.clients as client
-
-# @TODO These lists replace with "addoptions"
-senders = ['python', 'c']
-receivers = ['python', 'c']
+##
+i_clients = ['native']
+i_brokers = ['artemis', 'amq7']
+i_routers = ['dispatch', 'interconnect']
+i_sender = i_clients
+i_receiver = i_clients
 
 
-@pytest.fixture(params=senders, scope='module')
+@pytest.fixture(params=i_sender, scope='module')
 def sender(request):
-    clients = {
-        'native': client.core.Sender(),
-        # 'python': Client(name='Python'),
-        # 'c': Client(name='C'),
-    }
-    yield clients.get(request.param)
+    if request.param is 'native':
+        import components.clients.core as core
+        return core.Sender()
+    # yield s
 
 
-@pytest.fixture(params=receivers, scope='module')
+@pytest.fixture(params=i_receiver, scope='module')
 def receiver(request):
-    clients = {
-        'native': client.core.Receiver(),
-        # 'python': Client(name='Python'),
-        # 'c': Client(name='C'),
-    }
-    yield clients.get(request.param)
+    if request.param is 'native':
+        import components.clients.core as core
+        return core.Receiver()
+
+broker_node = Node(hostname='broker_node')
 
 
 @pytest.fixture(params=['artemis', 'amq7'])
-def broker2(request):
-    brokers = {
-        'artemis': broker.artemis(),
-        # 'amq7': broker.Amq7(name='Python'),
-        # 'qpid': broker.qpid(name='C'),
-    }
-    yield brokers.get(request.param)
+def broker(request):
+    from components.brokers.artemis.artemis import Artemis
+    if request.param is 'artemis':
+        return Artemis(node=broker_node)  # @TODO Node
+    elif request.param is 'amq7':
+        return Artemis(node=broker_node)  # @TODO Node
+
+router_node = Node(hostname='router_node')
 
 
-c_c = Client('c_client')
-j_client = Client('j_client')
+@pytest.fixture(params=['dispatch', 'interconnect'])
+def router(request):
+    from components.routers.dispatch.dispatch import Dispatch
+    if request.param is 'dispatch':
+        return Dispatch(node=router_node)  # @TODO Node
+    elif request.param is 'interconnect':
+        return Dispatch(node=router_node)  # @TODO Node
 
-topologies = ['x', 'y']
-clients = [c_c.name, j_client.name]
-receivers = clients
-senders = clients
-brokers = ['artemis', 'amq7', 'amq6', 'qpid', 'rabitmq']
-routers = ['qpid-dispatch', 'interconnect']
+
+#########################################
+# Section: Try overloading parametrize #
+#######################################
+i_topologies = ['x', 'y']
 
 
 def pytest_generate_tests(metafunc):
@@ -102,6 +118,21 @@ def pytest_generate_tests(metafunc):
 
 
 def calculate_second_parametrize():
-    return pytest.mark.parametrize('topology,sender,receiver,broker,router',
-                                   itertools.product(topologies, senders, receivers, brokers, routers))
+    parametrize = \
+        pytest.mark.parametrize(
+            'topology,'
+            'sender,'
+            'receiver,'
+            'broker,'
+            'router',
+            itertools.product(
+                i_topologies,
+                i_sender,
+                i_receiver,
+                i_brokers,
+                i_routers
+            )
+        )
+    return parametrize
+
 

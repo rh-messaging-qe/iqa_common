@@ -1,12 +1,10 @@
 from __future__ import print_function
-
-from components.protocols import Amqp10, Mqtt, Stomp
 from amom.node import Node
 
 
 class Client:
     """
-
+    Abstract class for every messaging client
     """
 
     # Required variables
@@ -34,20 +32,10 @@ class Client:
 class NativeClient(Client):
     def __init__(self):
         Client.__init__(self)
-        pass
 
 
 class ExternalClient(Client):
-    def __init__(self, node=Node()):
-        super(ExternalClient, self).__init__()
+    def __init__(self, node: Node):
+        Client.__init__(self)
         self.node = node
 
-
-class Proton(NativeClient):
-    """
-
-    """
-    supported_protocols = [Amqp10()]
-
-    def __init__(self):
-        super(Proton, self).__init__()

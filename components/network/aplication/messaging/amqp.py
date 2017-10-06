@@ -1,6 +1,9 @@
+from autologging import logged, traced
 from amom.protocol.protocol import Protocol
 
 
+@logged
+@traced
 class Amqp(Protocol):
     def __init__(self, default_port=5672):
         super(Amqp, self).__init__(default_port)

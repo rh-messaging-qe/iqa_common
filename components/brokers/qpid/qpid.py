@@ -1,5 +1,5 @@
 from amom.broker import Broker
-import amom.protocol as protocols
+import components.protocols as protocols
 
 
 class Qpid(Broker):

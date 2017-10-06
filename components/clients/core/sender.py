@@ -1,7 +1,8 @@
 import amom.client as client
+from .client import Client
 
 
-class Sender(client.Sender):
+class Sender(Client, client.Sender):
     def __init__(self):
-        super(Sender, self).__init__()
-        pass
+        client.Sender.__init__(self)
+        Client.__init__(self)

@@ -9,7 +9,7 @@ class Node(object):
     All future representations should inherit from this class.
     """
 
-    def __init__(self, hostname="localhost", ):
+    def __init__(self, hostname):
         self.hostname = hostname
 
     def run_command(self):

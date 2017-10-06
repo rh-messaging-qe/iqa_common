@@ -1,5 +1,5 @@
-from autologging import logged
-from components.nodes.executions import not_supported
+from autologging import logged, traced
+import inspect
 
 # @TODO implement execution base class
 # Why we need have more different execution method?
@@ -7,14 +7,14 @@ from components.nodes.executions import not_supported
 
 
 @logged
+@traced
 class Execution:
-    def __init__(self):
-        pass
+    def __init__(self, hostname):
+        self.hostname = hostname
 
     def execute(self, command):
-        self.__log.debug('Call execute "%s"' % command)
         self.__execute(command)
 
     @staticmethod
-    def execute():
-        not_supported()
+    def __execute(self):
+        print("Execution method '%s' is not supported!" % inspect.stack()[1][3])

@@ -4,5 +4,5 @@ from .execution import Execution
 
 
 class Ansible(Execution):
-    def __init__(self):
-        Execution.__init__(self)
+    def __init__(self, hostname):
+        Execution.__init__(self, hostname=hostname)

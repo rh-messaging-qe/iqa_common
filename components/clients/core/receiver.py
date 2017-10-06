@@ -1,7 +1,8 @@
-import amom.client
+import amom.client as client
+from .client import Client
 
 
-class Receiver(amom.client.Receiver):
+class Receiver(Client, client.Receiver):
     def __init__(self):
-        amom.client.Receiver.__init__(self)
-        pass
+        client.Receiver.__init__(self)
+        Client.__init__(self)
