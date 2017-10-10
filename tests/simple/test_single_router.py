@@ -1,5 +1,4 @@
-from proton import Message
-
+from amom.message import Message
 from tests import get_func_name
 
 

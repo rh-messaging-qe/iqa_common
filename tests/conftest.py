@@ -1,7 +1,16 @@
+import sys
 import os
+import logging
+import xtlog
+import xtlog.adapters
+
 import pytest
 import itertools
+
 from components.nodes import Node
+import components.clients.core as core
+from components.brokers.artemis import Artemis
+from components.routers.dispatch.dispatch import Dispatch
 
 #####################
 # Section: Logging #
@@ -9,130 +18,151 @@ from components.nodes import Node
 
 
 def pytest_logger_config(logger_config):
+    xtlog.config.config_all_default()
+    xtlog.init()
+    # logging.basicConfig(
+    #     level=TRACE, stream=sys.stdout,
+    #     format="%(levelname)s:%(name)s:%(funcName)s:%(message)s"
+    # )
     logger_config.add_loggers(['foo', 'bar', 'baz'], stdout_level='debug')
     logger_config.set_log_option_default('foo,bar')
 
 
-def pytest_logger_logdirlink(config):
-    return os.path.join(os.path.dirname(__file__), 'mylogs')
+#def pytest_logger_logdirlink(config):
+#    return os.path.join(os.path.dirname(__file__), 'mylogs')
+
 
 ########################
 # Section: Add option #
 ######################
 
-# def pytest_addoption(parser):
+
+def pytest_addoption(parser):
+    """
+
+    :param parser:
+    :return:
+    """
 #     # In node
-#     parser.addoption("--in_node", action="store", default="localhost", help="node for ingress connection")
+    parser.addoption("--in_node", action="store", default="localhost", help="node for ingress connection")
 #
 #     # Out node
-#     parser.addoption("--out_node", action="store", default="localhost", help="node for egress connection")
-#
-#     # Sender
-#    parser.addoption("--senders", action="store", default="localhost", help="node where sender is running", )
-#
-#     # Receiver
-#    parser.addoption("--receiver_node", action="store", default="localhost", help="node where receiver is running")
-#
-#     # Network model
-#     parser.addoption("--network_model", action="store", default="localhost", help="path to network_model file")
+    parser.addoption("--out_node", action="store", default="localhost", help="node for egress connection")
 #
 #
-# @pytest.fixture(scope="module", autouse=True)
-# def in_node(request):
-#     #return Router(request.config.getoption("in_node"))
-#     pass
+#     # Receiver node
+    parser.addoption("--receiver_node", action="store", default="localhost", help="node where receiver is running")
 #
-# @pytest.fixture(scope="module", autouse=True)
-# def out_node(request):
-#     #return Router(request.config.getoption("out_node"))
-#     pass
+#     # Sender node
+    parser.addoption("--sender_node", action="store", default="localhost", help="node where receiver is running")
 #
 
+    # Sender
+    parser.addoption("--sender", action="append", default=[], help="node where sender is running")
 
-def parse_senders(request):
-    return request.config.getoption("senders").split(",")
+    # Brokers
+    parser.addoption("--receiver", action="append", default=[], help="node where sender is running")
 
-######################
-# Section: Fixtures #
-####################
+    # Routers
+    parser.addoption("--router", action="append", default=[], help="node where sender is running")
 
-# @pytest.fixture(scope="module", autouse=True)
-# def receiver_node(request):
-#     #return Receiver(request.config.getoption("receiver_node"))
-#     pass
-
-##
-i_clients = ['native']
-i_brokers = ['artemis', 'amq7']
-i_routers = ['dispatch', 'interconnect']
-i_sender = i_clients
-i_receiver = i_clients
+    # Brokers
+    parser.addoption("--broker", action="append", default=[], help="node where sender is running")
 
 
-@pytest.fixture(params=i_sender, scope='module')
+def pytest_generate_tests(metafunc):
+    if 'sender' in metafunc.fixturenames:
+        senders = list(metafunc.config.option.sender)
+        metafunc.parametrize('sender', senders, indirect=True)
+
+    if 'receiver' in metafunc.fixturenames:
+        receivers = list(metafunc.config.option.receiver)
+        metafunc.parametrize('receiver', receivers, indirect=True)
+
+    if 'broker' in metafunc.fixturenames:
+        brokers = list(metafunc.config.option.broker)
+        metafunc.parametrize('broker', brokers, indirect=True)
+
+    if 'router' in metafunc.fixturenames:
+        routers = list(metafunc.config.option.router)
+        metafunc.parametrize('router', routers, indirect=True)
+
+
+@pytest.fixture()
 def sender(request):
-    if request.param is 'native':
-        import components.clients.core as core
+    if 'native' in request.param:
         return core.Sender()
-    # yield s
 
 
-@pytest.fixture(params=i_receiver, scope='module')
+@pytest.fixture()
 def receiver(request):
-    if request.param is 'native':
-        import components.clients.core as core
+    if 'native' in request.param:
         return core.Receiver()
 
-broker_node = Node(hostname='broker_node')
 
-
-@pytest.fixture(params=['artemis', 'amq7'])
+@pytest.fixture()
 def broker(request):
-    from components.brokers.artemis.artemis import Artemis
-    if request.param is 'artemis':
+    broker_node = Node(hostname='broker_node')
+    if 'artemis' in request.param:
         return Artemis(node=broker_node)  # @TODO Node
-    elif request.param is 'amq7':
+    elif 'amq7' in request.param:
         return Artemis(node=broker_node)  # @TODO Node
 
-router_node = Node(hostname='router_node')
 
-
-@pytest.fixture(params=['dispatch', 'interconnect'])
+@pytest.fixture()
 def router(request):
-    from components.routers.dispatch.dispatch import Dispatch
-    if request.param is 'dispatch':
+    router_node = Node(hostname='router_node')
+    if 'dispatch' in request.param:
         return Dispatch(node=router_node)  # @TODO Node
-    elif request.param is 'interconnect':
+    elif 'interconnect' in request.param:
         return Dispatch(node=router_node)  # @TODO Node
 
+
+@pytest.fixture()
+def tls(request):
+    if 'tls10' in request.param:
+        return core.Sender()
+    if 'tls11' in request.param:
+        return core.Sender()
+    if 'tls12' in request.param:
+        return core.Sender()
+    if 'tls13' in request.param:
+        return core.Sender()
+
+
+@pytest.fixture()
+def sasl(request):
+    """
+    SASL Authentication fixture
+    :param request:
+    :return:
+    """
+    if 'sasl_user' in request.param and 'sasl_password':
+        return None
+    else:
+        return None
 
 #########################################
 # Section: Try overloading parametrize #
 #######################################
-i_topologies = ['x', 'y']
+# i_topologies = ['x', 'y']
 
-
-def pytest_generate_tests(metafunc):
-    if hasattr(metafunc.function, 'iterate'):
-        metafunc.function.parametrize = [calculate_second_parametrize()]
-
-
-def calculate_second_parametrize():
-    parametrize = \
-        pytest.mark.parametrize(
-            'topology,'
-            'sender,'
-            'receiver,'
-            'broker,'
-            'router',
-            itertools.product(
-                i_topologies,
-                i_sender,
-                i_receiver,
-                i_brokers,
-                i_routers
-            )
-        )
-    return parametrize
+# def calculate_second_parametrize():
+#     parametrize = \
+#         pytest.mark.parametrize(
+#             'topology,'
+#             'sender,'
+#             'receiver,'
+#             'broker,'
+#             'router',
+#             itertools.product(
+#                 i_topologies,
+#                 i_sender,
+#                 i_receiver,
+#                 i_brokers,
+#                 i_routers
+#             )
+#         )
+#     return parametrize
 
 

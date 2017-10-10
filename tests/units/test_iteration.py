@@ -1,4 +1,3 @@
-from __future__ import print_function
 import pytest
 
 from amom.client import Sender, Receiver, Connector
@@ -16,5 +15,5 @@ def test_2(receiver: Receiver, sender: Sender, broker: Broker, router: Router):
     print(sender.name)
     print(receiver.name)
     print(broker.supported_protocols)
-    print(router.__doc__)
+    print(router.node.hostname)
     pass
