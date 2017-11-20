@@ -19,7 +19,9 @@ class LocalExec(object):
     """
 
     def __init__(self, cmd, timeout=None, stdin=None):
-        """Constructor that will not execute anything, just set things up"""
+        """
+        Constructor that will not execute anything, just set things up
+        """
         self.cmd = cmd
         self.x_cmd = None
         self._process_cmd()
@@ -40,14 +42,18 @@ class LocalExec(object):
         #self.exec_log_adapter = xtlog.adapters.RemoteExecAdapter(xtlog, {'host': None, 'user': None})
 
     def __remove_tailing_newlines(self):
-        """remove tailing newline chars from detected stdout/err"""
+        """
+        remove tailing newline chars from detected stdout/err
+        """
         if self.stdout and self.stdout[-1] == '':
             self.stdout.pop(-1)
         if self.stderr and self.stderr[-1] == '':
             self.stderr.pop(-1)
 
     def _process_cmd(self):
-        """Post-process command, split to correct argumets"""
+        """
+        Post-process command, split to correct argumets
+        """
         # pre-process for shlex(posix=True), it consumes '\' as
         # escapes, let's double it
         tmp_cmd = self.cmd.replace('\\', '\\\\')
@@ -117,7 +123,9 @@ class LocalExec(object):
         return ecode
 
     def wait_for_exit(self):
-        """waits for process to finish"""
+        """
+        waits for process to finish
+        """
         LocalExec.__log.debug('wait_for_exit(%s)' % self.x_cmd[0])
         try:
             self.process.communicate()
@@ -131,13 +139,17 @@ class LocalExec(object):
         return self.ecode
 
     def run_and_wait(self):
-        """runs and waits for completion, returns exit code or None"""
+        """
+        runs and waits for completion, returns exit code or None
+        """
         self.start()
         self.wait_for_exit()
         return self.ecode
 
     def get_ecode(self):
-        """returns the process exit code or None if it got killed / did not exit"""
+        """
+        returns the process exit code or None if it got killed / did not exit
+        """
         if self.ecode is not None:
             return self.ecode
         if self.process is not None:
@@ -145,34 +157,46 @@ class LocalExec(object):
         return None
 
     def finished(self):
-        """returns whether process has finished (True / False ~ yes / no)"""
+        """
+        returns whether process has finished (True / False ~ yes / no)
+        """
         if not self.process:
             return True
         return self.process.poll()
 
     def get_stdout(self):
-        """returns stdout from the process run"""
+        """
+        returns stdout from the process run
+        """
         if not self.finished():
             self._sync_stdx()
         return strip_endline(self.stdout)
 
     def get_stderr(self):
-        """returns stderr from the process run"""
+        """
+        returns stderr from the process run
+        """
         if not self.finished():
             self._sync_stdx()
         return strip_endline(self.stderr)
 
     def get_stdin(self):
-        """returns stdin fed to the process"""
+        """
+        returns stdin fed to the process
+        """
         return self.stdin
 
     def set_stdin(self, in_str):
-        """sets stdin stream to be fed to the process"""
+        """
+        sets stdin stream to be fed to the process
+        """
         self.stdin = in_str
         return self.stdin
 
     def get_duration(self):
-        """gets duration of runned command or None if command was not launched yet"""
+        """
+        gets duration of runned command or None if command was not launched yet
+        """
         if self.ts_start is None:
             return None
         ts_end = self.ts_stop or time.time()
@@ -181,7 +205,9 @@ class LocalExec(object):
 
 
 def strip_endline(in_arg):
-    """remove eol characters Linux/Win/Mac (input can be string or list of strings)"""
+    """
+    remove eol characters Linux/Win/Mac (input can be string or list of strings)
+    """
     if isinstance(in_arg, str):
         # input is string
         return in_arg.splitlines()
