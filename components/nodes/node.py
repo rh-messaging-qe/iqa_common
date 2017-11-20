@@ -1,9 +1,9 @@
 from autologging import logged, traced
 
-from .executions import Execution
-from .executions import Ansible
-from .executions import Executor
 import amom.node
+
+from .executions import AnsibleCMD
+from .executions import Executor
 
 
 @logged
@@ -16,18 +16,26 @@ class Node(amom.node.Node):
     """
     def __init__(self, hostname, execution=None):
         amom.node.Node.__init__(self, hostname=hostname)
-        self.ansible = Ansible(hostname)
+        self.executions = []
+        self.ansible = AnsibleCMD(hostname)
         self.executor = Executor(hostname)
+
+        # Last
+        self.last_execution = lambda: self.executions[-1] if not self.executions else None
 
         # Execution, by default is used Ansible
         self.execution = self.ansible
-        if execution is 'Executor':
+
+        if 'Executor' == execution:
             self.execution = self.executor
 
         self.components = None
 
     def execute(self, command):
-        self.execution.execute(command)
+        return self.execution.execute(command)
+
+    def ping(self):
+        return self.ansible.ping()
 
     def get_components(self):
         """
