@@ -1,11 +1,7 @@
 from autologging import logged, traced
-import amom.client
-from components.network.aplication.messaging import Amqp10
 
-import threading
-
-from proton.handlers import MessagingHandler
-from proton.reactor import Container
+import components.network.aplication.messaging as protocols
+from amom.client.client import NativeClient
 
 
 class Timeout:
@@ -18,13 +14,13 @@ class Timeout:
 
 @logged
 @traced
-class Client(amom.client.Client):
+class Client(NativeClient):
     """
-    Internal core
+    Internal core Proton mapping client
     """
-    supported_protocols = [Amqp10()]
+    supported_protocols = [protocols.Amqp10()]
     name = 'Internal core client'
     version = '0.1'
 
     def __init__(self):
-        amom.client.Client.__init__(self)
+        NativeClient.__init__(self)
