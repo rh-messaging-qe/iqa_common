@@ -1,7 +1,7 @@
-from inspect import stack as stack
+from inspect import stack
 
 
-class Node(object):
+class Node:
     """
     Represents virtual destination/service aka node.
     In a case of interconnect vm with qdrouterd is represented as a Router node.
@@ -12,10 +12,18 @@ class Node(object):
     def __init__(self, hostname):
         self.hostname = hostname
 
-    def run_command(self):
-        yield self._not_supported()
+    def execute(self, command):
+        """
+        Execute command on remote node
+        :param command: list
+        :return:
+        """
+        return self._not_supported()
+
+    def ping(self):
+        return self._not_supported()
 
     @staticmethod
     def _not_supported():
-        print("Function '%s' is not supported for this client." % stack()[1][3])
+        print("Function %s is not supported for this node." % stack()[1][3])
 

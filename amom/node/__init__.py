@@ -1,1 +1,1 @@
-from amom.node.node import Node
+from .node import Node

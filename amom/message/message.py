@@ -1,5 +1,4 @@
 from .header import Header
-from .content import Content
 from .delivery_annotations import DeliveryAnnotations
 from .message_annotations import MessageAnnotations
 from .properties import Properties
@@ -15,6 +14,7 @@ class Message(object):
     Mapping to specification is '1:1'
 
     This class is based on AMQP 1.0 specifics (3.2) Message Format
+
                                                               Bare Message
                                                                 |
                                           .---------------------+--------------------.
@@ -28,15 +28,16 @@ class Message(object):
                                                  |
                                           Annotated Message
     """
-    def __init__(self,
-                 header=Header(),
-                 delivery_annotations=DeliveryAnnotations(),
-                 message_annotations=MessageAnnotations(),
-                 properties=Properties(),
-                 application_properties=ApplicationProperties(),
-                 application_data=ApplicationData(),
-                 footer=Footer()
-                 ):
+    def __init__(
+            self,
+            header=Header(),
+            delivery_annotations=DeliveryAnnotations(),
+            message_annotations=MessageAnnotations(),
+            properties=Properties(),
+            application_properties=ApplicationProperties(),
+            application_data=ApplicationData(),
+            footer=Footer()):
+
         self.header = header
         self.delivery_annotations = delivery_annotations
         self.message_annotations = message_annotations

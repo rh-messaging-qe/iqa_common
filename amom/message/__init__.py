@@ -5,4 +5,5 @@ from .properties import Properties
 from .message_annotations import MessageAnnotations
 from .delivery_annotations import DeliveryAnnotations
 from .footer import Footer
+
 from .message import Message

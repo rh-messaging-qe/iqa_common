@@ -1,5 +1,6 @@
-from __future__ import print_function
-from amom.node import Node
+from inspect import stack
+
+from ..node import Node
 
 
 class Client:
@@ -18,18 +19,27 @@ class Client:
 
     @property
     def get_supported_protocols(self):
-        yield self.supported_protocols
+        return self.supported_protocols
 
     @property
     def get_name(self):
-        yield self.supported_protocols
+        return self.name
 
     @property
     def get_version(self):
-        yield self.version
+        return self.version
+
+    @staticmethod
+    def _not_supported():
+        print("Function %s is not supported for this client." % stack()[1][3])
 
 
 class NativeClient(Client):
+    def __init__(self):
+        Client.__init__(self)
+
+
+class LocalhostClient(Client):
     def __init__(self):
         Client.__init__(self)
 
@@ -39,3 +49,5 @@ class ExternalClient(Client):
         Client.__init__(self)
         self.node = node
 
+    def _run(self):
+        self._not_supported()
