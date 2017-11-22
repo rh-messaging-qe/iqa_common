@@ -1,5 +1,5 @@
 import logging
-import levels
+import xtlog.levels as levels
 
 
 class XTLogAdapter(logging.LoggerAdapter, object):

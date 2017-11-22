@@ -2,9 +2,9 @@ import logging
 import autologging
 import sys
 
-import config_utils
-import formats
-import filters
+import xtlog.config_utils as config_utils
+import xtlog.formats as formats
+import xtlog.filters as filters
 
 
 # defining selected handlers

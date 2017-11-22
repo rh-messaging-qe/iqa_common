@@ -2,9 +2,9 @@ import logging
 import autologging
 import sys
 
-import config_handlers
-import formats
-import levels
+import xtlog.config_handlers as config_handlers
+import xtlog.formats as formats
+import xtlog.levels as levels
 
 levels.init()
 
