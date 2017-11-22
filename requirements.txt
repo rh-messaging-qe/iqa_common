@@ -1,0 +1,3 @@
+autologging
+pytest
+pytest-logger
