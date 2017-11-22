@@ -1,3 +1,3 @@
 def not_supported():
-    import inspect
-    print("Function '%s' is not supported for this client." % inspect.stack()[1][3])
+    from inspect import stack
+    print("Function '%s' is not supported for this client." % stack()[1][3])
