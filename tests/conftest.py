@@ -111,7 +111,7 @@ def receiver(request):
 
 @pytest.fixture()
 def broker(request):
-    broker_node = Node(hostname='ic02')
+    broker_node = Node(hostname='r7x2')
     if 'artemis' in request.param:
         return Artemis(node=broker_node)
     elif 'amq7' in request.param:
@@ -120,7 +120,7 @@ def broker(request):
 
 @pytest.fixture()
 def router(request):
-    router_node = Node(hostname='ic02')
+    router_node = Node(hostname='r7x1')
     if 'dispatch' in request.param:
         return Dispatch(node=router_node)
     elif 'interconnect' in request.param:

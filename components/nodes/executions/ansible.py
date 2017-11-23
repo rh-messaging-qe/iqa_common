@@ -20,7 +20,7 @@ class AnsibleCMD(Execution):
 
         AnsibleCMD.__log.info('Executing command on node %s..' % self.hostname)
         AnsibleCMD.__log.debug('Executing command "%s" on node %s..' % (*command, self.hostname))
-        process = self._ansible_cmd(moduleargs=command, host=self.hostname, module='command')
+        process = self.cli_cmd(moduleargs=command, host=self.hostname, module='command')
         AnsibleCMD.__log.debug(process.get_stdout())
         return process
 
@@ -40,7 +40,7 @@ class AnsibleCMD(Execution):
         return True if process.get_ecode() == 0 else False
 
     @staticmethod
-    def _ansible_cmd(moduleargs, host, module):
+    def cli_cmd(moduleargs, host, module):
         """
         Execute command on node by using Ansible.
         :param moduleargs:

@@ -1,0 +1,4 @@
+.pyenv*
+.cache
+logs
+.idea

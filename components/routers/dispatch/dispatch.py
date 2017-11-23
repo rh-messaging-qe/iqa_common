@@ -2,6 +2,7 @@ from autologging import logged, traced
 from amom.router import Router
 from amom.node import Node
 from .management import QDManage, QDStat
+from ...service import Service
 
 
 @logged
@@ -15,3 +16,4 @@ class Dispatch(Router):
         self.qdmanage = QDManage()
         self.qdstat = QDStat()
         self.config = None
+        self.service = Service(self, 'qdrouterd')
