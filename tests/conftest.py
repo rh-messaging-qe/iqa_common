@@ -33,124 +33,6 @@ def pytest_runtest_makereport(item):
     setattr(item, "rep_" + rep.when, rep)
 
 
-########################
-# Section: Add option  #
-########################
-
-
-def pytest_addoption(parser):
-    """
-
-    :param parser:
-    :return:
-    """
-    # In node
-    parser.addoption("--in_node", action="store", default="localhost", help="node for ingress connection")
-
-    # Out node
-    parser.addoption("--out_node", action="store", default="localhost", help="node for egress connection")
-
-    # Receiver node
-    parser.addoption("--receiver_node", action="store", default="localhost", help="node where receiver is running")
-
-    # Sender node
-    parser.addoption("--sender_node", action="store", default="localhost", help="node where receiver is running")
-
-    # Senders
-    parser.addoption("--sender", action="append", default=[], help="Define which sender client")
-
-    # Brokers
-    parser.addoption("--receiver", action="append", default=[], help="Define which receiver client")
-
-    # Routers
-    parser.addoption("--router", action="append", default=[], help="Define which router [dispatch, interconnect]")
-
-    # Brokers
-    parser.addoption("--broker", action="append", default=[], help="Define which broker [amq7, artemis, rabitmq]")
-
-
-#############################
-# Section: Parametrization  #
-#############################
-
-
-def pytest_generate_tests(metafunc):
-    if 'sender' in metafunc.fixturenames:
-        senders = list(metafunc.config.option.sender)
-        metafunc.parametrize('sender', senders, indirect=True)
-
-    if 'receiver' in metafunc.fixturenames:
-        receivers = list(metafunc.config.option.receiver)
-        metafunc.parametrize('receiver', receivers, indirect=True)
-
-    if 'broker' in metafunc.fixturenames:
-        brokers = list(metafunc.config.option.broker)
-        metafunc.parametrize('broker', brokers, indirect=True)
-
-    if 'router' in metafunc.fixturenames:
-        routers = list(metafunc.config.option.router)
-        metafunc.parametrize('router', routers, indirect=True)
-
-
-########################
-# Section: Fixtures    #
-########################
-
-
-@pytest.fixture()
-def sender(request):
-    if 'native' in request.param:
-        return core.Sender()
-
-
-@pytest.fixture()
-def receiver(request):
-    if 'native' in request.param:
-        return core.Receiver()
-
-
-@pytest.fixture()
-def broker(request):
-    broker_node = Node(hostname='r7x2')
-    if 'artemis' in request.param:
-        return Artemis(node=broker_node)
-    elif 'amq7' in request.param:
-        return Artemis(node=broker_node)
-
-
-@pytest.fixture()
-def router(request):
-    router_node = Node(hostname='r7x1')
-    if 'dispatch' in request.param:
-        return Dispatch(node=router_node)
-    elif 'interconnect' in request.param:
-        return Dispatch(node=router_node)
-
-
-@pytest.fixture()
-def tls(request):
-    if 'tls10' in request.param:
-        return core.Sender()
-    if 'tls11' in request.param:
-        return core.Sender()
-    if 'tls12' in request.param:
-        return core.Sender()
-    if 'tls13' in request.param:
-        return core.Sender()
-
-
-@pytest.fixture()
-def sasl(request):
-    """
-    SASL Authentication fixture
-    :param request:
-    :return:
-    """
-    if 'sasl_user' in request.param and 'sasl_password':
-        return None
-    else:
-        return None
-
 
 ##################################
 # Section: Run before/after test #
@@ -160,21 +42,20 @@ def sasl(request):
 @pytest.yield_fixture(scope='function', autouse=True)
 def run_around_tests(request):
     test_name = request.node.name
-    print("Starting ", test_name)
-    yield
-    print("Ending: %s" % test_name)
+    logger.info("Starting: %s" % test_name)
 
-    if request.node.rep_setup.failed:
-        print("Setting up a test failed!", request.node.nodeid)
-    elif request.node.rep_setup.passed:
-        print("Setting up a test passed!", request.node.nodeid)
-        if request.node.rep_call.failed:
-            # print("Executing test failed!", request.node.nodeid)
-            logger.test_fail(request.node.nodeid)
-        elif request.node.rep_call.passed:
-            # print("Executing test passed!", request.node.nodeid)
-            logger.test_pass(request.node.nodeid)
+    def fin():
+        logger.info("Ending: %s" % test_name)
+        if request.node.rep_setup.failed:
+            logger.error("Setting up a test failed!")
+        elif request.node.rep_setup.passed:
+            logger.info("Setting up a test passed!")
+            if request.node.rep_call.failed:
+                logger.test_fail(request.node.nodeid)
+            elif request.node.rep_call.passed:
+                logger.test_pass(request.node.nodeid)
 
+    request.addfinalizer(fin)
 
 #########################################
 # Section: Try overloading parametrize #
