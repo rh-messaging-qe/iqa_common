@@ -8,6 +8,7 @@ from ...service import Service
 @logged
 @traced
 class Dispatch(Router):
+    name = 'Qpid Dispatch Router'
     """
     Qpid Dispatch component
     """
