@@ -1,5 +1,3 @@
-import pytest
-
 from amom.client import Sender
 
 
@@ -8,5 +6,4 @@ from amom.client import Sender
 
 
 def test_name(receiver: Sender):
-    pass
-    # assert receiver.name == 'Internal core client'
+    assert receiver.name == 'Internal core client'

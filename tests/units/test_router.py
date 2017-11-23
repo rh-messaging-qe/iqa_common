@@ -1,11 +1,9 @@
-import pytest
-
-from amom.client import Sender
+from amom.router import Router
 
 
-def test_isinstance(sender: Sender):
-    assert isinstance(sender, Sender)
+def test_isinstance(router: Router):
+    assert isinstance(router, Router)
 
 
-def test_name(receiver: Sender):
-    assert receiver.name == 'Internal core client'
+def test_name(router: Router):
+    assert router.name == 'Qpid Dispatch Router'
