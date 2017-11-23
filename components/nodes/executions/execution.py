@@ -13,8 +13,7 @@ class Execution:
         self.hostname = hostname
 
     def execute(self, command):
-        self.__execute(command)
+        self._execute(command)
 
-    @staticmethod
-    def __execute(self):
+    def _execute(self, command):
         print("Execution method '%s' is not supported!" % inspect.stack()[1][3])

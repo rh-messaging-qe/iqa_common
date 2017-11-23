@@ -3,6 +3,7 @@ import shlex
 import subprocess
 import tempfile
 import time
+import xtlog
 
 from autologging import logged, traced
 
@@ -39,7 +40,7 @@ class LocalExec(object):
         self.ts_start = None
         self.ts_stop = None
         self.host = 'localhost'
-        #self.exec_log_adapter = xtlog.adapters.RemoteExecAdapter(xtlog, {'host': None, 'user': None})
+        self.exec_log_adapter = xtlog.adapters.RemoteExecAdapter(xtlog, {'host': None, 'user': None})
 
     def __remove_tailing_newlines(self):
         """
@@ -56,8 +57,11 @@ class LocalExec(object):
         """
         # pre-process for shlex(posix=True), it consumes '\' as
         # escapes, let's double it
-        tmp_cmd = self.cmd.replace('\\', '\\\\')
-        self.x_cmd = shlex.split(tmp_cmd)
+        if not isinstance(self.cmd, list):
+            tmp_cmd = self.cmd.replace('\\', '\\\\')
+            self.x_cmd = shlex.split(tmp_cmd)
+        else:
+            self.x_cmd = self.cmd
 
     def _pre_start(self):
         # assign pipe channel to stdin if stdin given
