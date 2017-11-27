@@ -29,6 +29,7 @@ class Node(amom.node.Node):
         if 'Executor' == execution:
             self.execution = self.executor
 
+        self.ip = self._get_ip()
         self.components = None
 
     def execute(self, command):
@@ -45,6 +46,11 @@ class Node(amom.node.Node):
         """
         return [method_name for method_name in dir(self)
                 if callable(getattr(self, method_name))]
+    def _get_ip(self):
+        """Get ip of node"""
+        cmd_ip = 'ip route | grep ^default | grep -oE [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+        process = self.execute(cmd_ip)
+        return process.get_stdout()[1]
 
     def get_brokers(self):
         """
