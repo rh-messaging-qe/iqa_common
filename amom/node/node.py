@@ -9,8 +9,9 @@ class Node:
     All future representations should inherit from this class.
     """
 
-    def __init__(self, hostname):
+    def __init__(self, hostname=None, ip=None):
         self.hostname = hostname
+        self.ip = ip
 
     def execute(self, command):
         """
