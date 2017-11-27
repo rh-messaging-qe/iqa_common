@@ -1,10 +1,12 @@
 import pytest
 
-
 import components.clients.core as core
-from components.nodes import Node
+# from components.nodes import Node
 from components.brokers.artemis import Artemis
 from components.routers.dispatch.dispatch import Dispatch
+from components.instance import IQAInstance
+
+iqa_instance = IQAInstance()
 
 ########################
 # Section: Add option  #
@@ -29,6 +31,10 @@ def pytest_addoption(parser):
     # TLS
     components.addoption("--tls", action="append", default=[], help="TLS option [tls10,tls11,tls12,tls13]")
 
+
+def pytest_configure(config):
+    # iqa_instance = IQAInstance(inventory=config.getvalue('inventory'))
+    iqa_instance.inventory = config.getvalue('inventory')
 
 #############################
 # Section: Parametrization  #
@@ -82,6 +88,8 @@ def receiver(request):
         return core.Receiver()
 
 
+broker_node = iqa_instance.new_node(hostname='ic01-r6i')
+
 @pytest.fixture()
 def broker(request):
     broker_node = Node(hostname='ic01-r6i')
@@ -91,6 +99,9 @@ def broker(request):
         return Artemis(node=broker_node)
     elif 'amq6' in request.param:
         return Artemis(node=broker_node)
+
+
+router_node = iqa_instance.new_node(hostname='ic01-r6i')
 
 
 @pytest.fixture()
