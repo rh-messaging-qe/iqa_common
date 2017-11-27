@@ -6,8 +6,12 @@ from .local_exec import LocalExec
 @logged
 @traced
 class AnsibleCMD(Execution):
+    """
+    Ansible CLI Ad-Hoc Commands
+    """
     def __init__(self, hostname):
         Execution.__init__(self, hostname=hostname)
+        self.inventory = None
 
     def _execute(self, command):
         """
