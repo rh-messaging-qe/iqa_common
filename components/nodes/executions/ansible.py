@@ -57,6 +57,23 @@ class AnsibleCMD(Execution):
 
         return process
 
+    @staticmethod
+    def cli_playbook(playbook, inventory, module):
+        """
+        Execute command on node by using Ansible.
+        :param moduleargs:
+        :param host:
+        :param module:
+        :return:
+        """
+        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10']
+        AnsibleCMD.__log.debug(command)
+
+        process = LocalExec(command)
+        process.run_and_wait()
+        AnsibleCMD.__log.debug(process.get_stdout())
+
+        return process
 
 class AnsibleAPI(Execution):
     def __init__(self, hostname):
