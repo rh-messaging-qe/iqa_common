@@ -24,7 +24,7 @@ class AnsibleCMD(Execution):
 
         AnsibleCMD.__log.info('Executing command on node %s..' % self.hostname)
         AnsibleCMD.__log.debug('Executing command "%s" on node %s..' % (*command, self.hostname))
-        process = self.cli_cmd(moduleargs=command, host=self.hostname, module='command')
+        process = self.cli_cmd(moduleargs=command, host=self.hostname, module='shell')
         AnsibleCMD.__log.debug(process.get_stdout())
         return process
 
