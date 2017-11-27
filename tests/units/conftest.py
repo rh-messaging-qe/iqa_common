@@ -53,8 +53,8 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize('router', routers, indirect=True)
 
     if 'tls' in metafunc.fixturenames:
-        routers = list(metafunc.config.option.router)
-        metafunc.parametrize('tls', routers, indirect=True)
+        tls = list(metafunc.config.option.tls)
+        metafunc.parametrize('tls', tls, indirect=True)
 
 
 ########################
@@ -66,9 +66,9 @@ def pytest_generate_tests(metafunc):
 def sender(request):
     if 'native' in request.param:
         return core.Sender()
-    if 'nodejs' in request.param:
+    elif 'nodejs' in request.param:
         return core.Sender()
-    if 'python' in request.param:
+    elif 'python' in request.param:
         return core.Sender()
 
 
