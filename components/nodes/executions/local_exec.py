@@ -40,7 +40,7 @@ class LocalExec(object):
         self.ts_start = None
         self.ts_stop = None
         self.host = 'localhost'
-        self.exec_log_adapter = xtlog.adapters.RemoteExecAdapter(xtlog, {'host': None, 'user': None})
+        self.exec_log_adapter = xtlog.adapters.RemoteExecAdapter(xtlog, {'host': self.host, 'user': None})
 
     def __remove_tailing_newlines(self):
         """
@@ -53,7 +53,7 @@ class LocalExec(object):
 
     def _process_cmd(self):
         """
-        Post-process command, split to correct argumets
+        Post-process command, split to correct arguments
         """
         # pre-process for shlex(posix=True), it consumes '\' as
         # escapes, let's double it
