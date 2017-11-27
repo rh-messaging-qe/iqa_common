@@ -12,26 +12,22 @@ from components.routers.dispatch.dispatch import Dispatch
 
 
 def pytest_addoption(parser):
-    """
-
-    :param parser:
-    :return:
-    """
+    components = parser.getgroup('iqa-components')
 
     # Senders
-    parser.addoption("--sender", action="append", default=[], help="Define which sender client")
+    components.addoption("--sender", action="append", default=[], help="Define sender client [native, nodejs]")
 
     # Brokers
-    parser.addoption("--receiver", action="append", default=[], help="Define which receiver client")
+    components.addoption("--receiver", action="append", default=[], help="Define receiver client []")
 
     # Routers
-    parser.addoption("--router", action="append", default=[], help="Define which router [dispatch, interconnect]")
+    components.addoption("--router", action="append", default=[], help="Define which router [dispatch, interconnect]")
 
     # Brokers
-    parser.addoption("--broker", action="append", default=[], help="Define which broker [amq7, artemis, rabitmq]")
+    components.addoption("--broker", action="append", default=[], help="Define which broker [amq7, artemis, rabitmq]")
 
     # TLS
-    parser.addoption("--tls", action="append", default=[], help="TLS option [tls10,tls11,tls12,tls13]")
+    components.addoption("--tls", action="append", default=[], help="TLS option [tls10,tls11,tls12,tls13]")
 
 
 #############################
