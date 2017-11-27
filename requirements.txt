@@ -1,3 +1,4 @@
 autologging
 pytest
 pytest-logger
+colorlog
