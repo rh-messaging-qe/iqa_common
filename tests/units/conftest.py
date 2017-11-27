@@ -40,7 +40,6 @@ def pytest_configure(config):
 # Section: Parametrization  #
 #############################
 
-
 def pytest_generate_tests(metafunc):
     if 'sender' in metafunc.fixturenames:
         senders = list(metafunc.config.option.sender)
@@ -92,7 +91,11 @@ broker_node = iqa_instance.new_node(hostname='ic01-r6i')
 
 @pytest.fixture()
 def broker(request):
-    broker_node = Node(hostname='ic01-r6i')
+    """
+    Iteration objects for broker
+    :return: Broker object
+    """
+
     if 'artemis' in request.param:
         return Artemis(node=broker_node)
     elif 'amq7' in request.param:
@@ -106,7 +109,11 @@ router_node = iqa_instance.new_node(hostname='ic01-r6i')
 
 @pytest.fixture()
 def router(request):
-    router_node = Node(hostname='ic01-r6i')
+    """
+    Iteration objects for router
+    :param request:
+    :return: Router object
+    """
     if 'dispatch' in request.param:
         return Dispatch(node=router_node)
     elif 'interconnect' in request.param:
@@ -115,6 +122,11 @@ def router(request):
 
 @pytest.fixture()
 def tls(request):
+    """
+    Iteration object for TLS settings
+    :param request:
+    :return:
+    """
     if 'tls10' in request.param:
         return 'settings for tls10'
     elif 'tls11' in request.param:
