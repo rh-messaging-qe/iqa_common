@@ -1,29 +1,41 @@
 import logging
-import xtlog
+import os
 import xtlog.adapters
-
 import pytest
 
+xtlog.config.config_all_default()
+xtlog.init()
+logger = logging.getLogger(__name__)
 
-import components.clients.core as core
-from components.nodes import Node
-from components.brokers.artemis import Artemis
-from components.routers.dispatch.dispatch import Dispatch
+def pytest_addoption(parser):
+    """
+
+    :param parser:
+    :return:
+    """
+    iqa = parser.getgroup('iqa')
+
+    # Senders
+    iqa.addoption('--inventory', action='store', dest='inventory',
+                  metavar="INVENTORY_FILE", help='Inventory file.')
+
+
+def pytest_configure(config):
+    if not config.getvalue('inventory'):
+        raise pytest.UsageError("value --inventory option is required")
+
+    inventory_path = config.getvalue('inventory') if config.getvalue('inventory') else ''
+
+    if not os.path.exists(inventory_path):
+        raise pytest.UsageError("value of --inventory option ({}) is not accessible".format(inventory_path))
 
 
 #####################
 # Section: Logging #
 ###################
 
-
 def pytest_logger_config(logger_config):
-    xtlog.config.config_all_default()
-    xtlog.init()
-    logger_config.add_loggers(['foo', 'bar', 'baz'], stdout_level='debug')
-    logger_config.set_log_option_default('foo,bar')
-
-
-logger = logging.getLogger(__name__)
+    pass
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -31,7 +43,6 @@ def pytest_runtest_makereport(item):
     outcome = yield
     rep = outcome.get_result()
     setattr(item, "rep_" + rep.when, rep)
-
 
 
 ##################################
@@ -56,26 +67,3 @@ def run_around_tests(request):
                 logger.test_pass(request.node.nodeid)
 
     request.addfinalizer(fin)
-
-#########################################
-# Section: Try overloading parametrize #
-#######################################
-# i_topologies = ['x', 'y']
-
-# def calculate_second_parametrize():
-#     parametrize = \
-#         pytest.mark.parametrize(
-#             'topology,'
-#             'sender,'
-#             'receiver,'
-#             'broker,'
-#             'router',
-#             itertools.product(
-#                 i_topologies,
-#                 i_sender,
-#                 i_receiver,
-#                 i_brokers,
-#                 i_routers
-#             )
-#         )
-#     return parametrize
