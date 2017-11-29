@@ -1,4 +1,4 @@
-from proton import Message
+from proton import Message, Event
 from proton.handlers import MessagingHandler
 from proton.reactor import Container
 import time
@@ -11,14 +11,16 @@ class SendMessage(MessagingHandler):
         self.server = server
         self.address = address
 
-    def on_start(self, event):
+    def on_start(self, event: Event):
         conn = event.container.connect(self.server)
         event.container.create_receiver(conn, self.address)
         event.container.create_sender(conn, self.address)
 
-    def on_sendable(self, event):
+    def on_sendable(self, event: Event):
         event.sender.send(Message(body="Test message"))
         event.sender.close()
+        event.receiver.close()
+        event.connection.close()
 
     def on_message(self, event):
         print(event.message.body)
@@ -30,7 +32,9 @@ def test_node_ip(master1: Artemis, slave1: Artemis, slave2: Artemis):
     # Client01.start(master1.lister('test_listener'))
     # Client01.send(address=broker2.address('abcd') msg=message)
 
-    assert master1.service._stop()
+    # assert master1.service._stop()
+    master1.node.execute('killall java')
+
     time.sleep(15)
 
     # message = Message(content='Test message')
@@ -38,4 +42,3 @@ def test_node_ip(master1: Artemis, slave1: Artemis, slave2: Artemis):
 
     client = Container(SendMessage("%s:5672" % slave1.node.ip, "examples"))
     client.run()
-    client.stop()
