@@ -32,8 +32,8 @@ def test_node_ip(master1: Artemis, slave1: Artemis, slave2: Artemis):
     # Client01.start(master1.lister('test_listener'))
     # Client01.send(address=broker2.address('abcd') msg=message)
 
-    # assert master1.service._stop()
-    master1.node.execute('killall java')
+    exec = master1.node.execute(['killall java'])
+    assert True if exec.get_ecode() == 0 else False
 
     time.sleep(15)
 
