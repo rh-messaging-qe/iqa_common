@@ -1,7 +1,22 @@
 from amom.broker import Broker
 from ...nodes import Node
+from ...service import Service
 
 import components.network.aplication.messaging as protocols
+
+
+class ServiceArtemis(Service):
+    def __init__(self, service, name):
+        self.service = service
+        self.name = name
+
+    def stop(self):
+        """
+        Service stop.
+        :return: executed process
+        """
+        return self.service.node.ansible.cli_cmd(module='shell', host=self.service.node.hostname,
+                                                 moduleargs=['killall java'])
 
 
 class Artemis(Broker):
@@ -13,5 +28,6 @@ class Artemis(Broker):
 
     def __init__(self, node: Node):
         Broker.__init__(self, node=node)
+        self.service = ServiceArtemis(self, 'qdrouterd')
 
 

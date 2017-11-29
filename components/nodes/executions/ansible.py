@@ -1,6 +1,7 @@
 from autologging import logged, traced
 from .execution import Execution
 from .local_exec import LocalExec
+import os
 
 
 @logged
@@ -62,15 +63,19 @@ class AnsibleCMD(Execution):
         return process
 
     @staticmethod
-    def cli_playbook(playbook, inventory, module):
+    def cli_playbook(playbook, inventory, args):
         """
         Execute command on node by using Ansible.
-        :param moduleargs:
-        :param host:
+        :param playbook:
         :param module:
+        :param args:
         :return:
         """
-        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10']
+
+        if not os.path.exists(playbook):
+            AnsibleCMD.__log.debug('Wrong playbook: %s' % playbook)
+
+        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10', *args]
         AnsibleCMD.__log.debug(command)
 
         process = LocalExec(command)
