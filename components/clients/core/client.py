@@ -22,5 +22,8 @@ class Client(NativeClient):
     name = 'Internal core client'
     version = '0.1'
 
+    # Core client atributes
+
+
     def __init__(self):
         NativeClient.__init__(self)

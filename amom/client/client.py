@@ -1,4 +1,5 @@
 from inspect import stack
+from odict import odict
 
 from ..node import Node
 
@@ -14,8 +15,13 @@ class Client:
     version = ''
     ###
 
+    # attribute-argument mapping dictionary
+    cli_params_transformation = odict()
+    attribute_prefix = "_c_"
+
     def __init__(self):
         self.logs = None  # @TODO
+        self._init_attributes(self)
 
     @property
     def get_supported_protocols(self):
@@ -32,6 +38,17 @@ class Client:
     @staticmethod
     def _not_supported():
         print("Function %s is not supported for this client." % stack()[1][3])
+
+    def _init_attributes(self):
+        for name, value in self.cli_params_transformation:
+            name = self.attribute_prefix + name
+            self.__setattr__(name, value)
+
+    def _set_attr_values(self, **kwargs):
+        for name, value in kwargs:
+            name = self.attribute_prefix + name
+            if hasattr(self, name):
+                self.__setattr__(name, value)
 
 
 class NativeClient(Client):
@@ -51,3 +68,31 @@ class ExternalClient(Client):
 
     def _run(self):
         self._not_supported()
+
+    def _execute(self, cmd):
+        """
+        Method for execute client's command.
+        :param cmd: command
+        :return:
+        """
+        self.node.execute(cmd)
+
+    def _build_sender_command(self):
+        """
+        Method for create command for execute based on client's available attributes.
+
+        :return: list with command attributes
+        """
+        attributes = filter(lambda a: a.startswith(self.attribute_prefix), dir(self))
+
+        command = []
+
+        for item in self.cli_params_transformation:
+            value = getattr(self, item)
+            if item in attributes and value is not None:
+                if isinstance(value, bool):
+                    command.append(self.cli_params_transformation[item])
+                else:
+                    command.append(self.cli_params_transformation[item] % value)
+
+        return command

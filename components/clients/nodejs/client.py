@@ -1,4 +1,6 @@
 from autologging import logged, traced
+from odict import odict
+
 
 import components.network.aplication.messaging as protocols
 from amom.client.client import ExternalClient
