@@ -11,11 +11,10 @@ class Connector(Client, amom.client.Connector):
     """
     External NodeJS connector client
     """
-    # client is installed from cli-rhea, node_app is there only for backward compability
+    # client is installed from cli-rhea, node_app is there only for backward compatibility
     cli_command = odict([('nodejs', 'cli-rhea-connector')])
 
     cli_params_transformation = odict([
-        # TODO
         ('help', '--help'),
 
         ('broker-url', "--broker %s"),
@@ -43,5 +42,8 @@ class Connector(Client, amom.client.Connector):
     ])
 
     def __init__(self):
+        """
+        Method for init receiver.
+        """
         amom.client.Connector.__init__(self)
         Client.__init__(self)

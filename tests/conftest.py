@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 def pytest_addoption(parser):
     """
-
     :param parser:
     :return:
     """

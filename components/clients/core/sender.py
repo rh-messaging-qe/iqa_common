@@ -13,9 +13,3 @@ class Sender(Client, amom.client.Sender):
     def __init__(self):
         amom.client.Sender.__init__(self)
         Client.__init__(self)
-
-init
-  self.arg_durable=None
-
-
-execute(['client.py' *args])

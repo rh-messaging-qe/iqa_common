@@ -40,11 +40,20 @@ class Client:
         print("Function %s is not supported for this client." % stack()[1][3])
 
     def _init_attributes(self):
+        """
+        Method for init class attributes based on clients attributes.
+        :return:
+        """
         for name, value in self.cli_params_transformation:
             name = self.attribute_prefix + name
             self.__setattr__(name, value)
 
     def _set_attr_values(self, **kwargs):
+        """
+        Method for set class attributes based on clients attributes.
+        :param kwargs: dict of attributes with values
+        :return:
+        """
         for name, value in kwargs:
             name = self.attribute_prefix + name
             if hasattr(self, name):
@@ -80,7 +89,6 @@ class ExternalClient(Client):
     def _build_sender_command(self):
         """
         Method for create command for execute based on client's available attributes.
-
         :return: list with command attributes
         """
         attributes = filter(lambda a: a.startswith(self.attribute_prefix), dir(self))

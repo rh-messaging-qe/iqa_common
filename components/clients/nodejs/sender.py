@@ -11,7 +11,6 @@ class Sender(Client, amom.client.Sender):
     """
     External NodeJS sender client
     """
-
     # client is installed from cli-rhea, node_app is there only for backward compability
     cli_command = odict([('nodejs', 'cli-rhea-sender')])
     # Client-sender params for build execute command
@@ -21,7 +20,7 @@ class Sender(Client, amom.client.Sender):
         ('close_sleep', '--close-sleep %s'),
 
         ('broker_url', '--broker %s'),
-        ('transport', None),  # TODO Proc je tu None?
+        ('transport', None),
         ('host', None),
         ('port', None),
         ('username', None),
@@ -67,17 +66,17 @@ class Sender(Client, amom.client.Sender):
 
     def __init__(self):
         """
-
+        Methd for init NodeJS sender.
         """
         amom.client.Sender.__init__(self)
         Client.__init__(self)
 
 
-
-    def _send_message(self):
+    def _send_message(self, **kwargs):
         """
-
+        Method for send message.
         :return:
         """
+        self._set_attr_values(kwargs)
         cmd = self._build_sender_command()
         self._execute(cmd)

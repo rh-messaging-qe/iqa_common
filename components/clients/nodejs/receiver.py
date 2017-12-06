@@ -57,5 +57,8 @@ class Receiver(Client, amom.client.Receiver):
     ])
 
     def __init__(self):
+        """
+        Method for init receiver.
+        """
         amom.client.Receiver.__init__(self)
         Client.__init__(self)

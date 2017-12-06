@@ -7,3 +7,4 @@ def test_isinstance(sender: Sender):
 
 def test_name(receiver: Sender):
     assert receiver.name == 'Internal core client'
+
