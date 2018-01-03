@@ -41,7 +41,7 @@ def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None, d
 
     # console handler
     # console_handler = logging.StreamHandler(stream=filename)  # Python 2.7
-    console_handler = logging.StreamHandler()  # Python 2.6
+    console_handler = logging.StreamHandler(sys.stdout)  # Python 2.6
     console_handler.setLevel(level)
     console_formatter = logging.Formatter(fmt, datefmt=datefmt)
 
