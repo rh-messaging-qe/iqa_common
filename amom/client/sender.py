@@ -1,4 +1,5 @@
 from .client import Client
+from ..message import Message
 
 
 class Sender(Client):
@@ -17,21 +18,26 @@ class Sender(Client):
         self.messages = []
         self.sent_messages = 0
 
-
     @property
     def last_message(self):
         """
         Method for pickup sent last message.
         :return: message
         """
-        return self.messages[-1] if not self.messages else None
+        return self.messages[-1] if self.messages else None
 
-    def send_message(self, **kwargs):
+    def send_message(self, message: Message, **kwargs):
         """
         Method for send message.
-        :param message: message
+        :param message:
         :return:
         """
+        if self.message_buffer:
+            self.messages.append(message)
+        else:
+            self.messages = [message]
+
+        self.sent_messages += 1
         self._add_message(kwargs)
         self._send_message(kwargs)
         self.sent_messages += 1
@@ -57,4 +63,7 @@ class Sender(Client):
             self.messages.append(message)
         else:
             self.messages = [message]
+
+    def _send_message(self):
+        yield self._not_supported()
 

@@ -19,20 +19,33 @@ class Receiver(Client):
         Method for pickup last received message.
         :return:
         """
-        return self.messages[-1] if not self.messages else None
+        return self.messages[-1] if self.messages else None
 
     def receive_messages(self, message=None):
         """
         Method for receive message.
         :param message: ???
-        :return:
         """
+        if self.message_buffer:
+            self.messages.append(message)
+        else:
+            self.messages = [message]
+
         self.start_receive()
+        self.received_messages += 1
 
     def start_receive(self):
         """
-        Method for yield unsoported send method.
+        Start receive messages
         :return:
         """
+        # if self.message_buffer:
+        #     while True:
+        #         self.messages.append(message)
+        # else:
+        #     while True:
+        #         self.messages = [message]
+        # self.received_messages += 1
+
         yield self._not_supported()
 
