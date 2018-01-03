@@ -6,13 +6,61 @@ import os
 
 @logged
 @traced
-class AnsibleCMD(Execution):
+class AnsibleCMD:
+    """
+    Ansible program abstraction
+    """
+    def __init__(self, inventory):
+        """
+        :param inventory:
+        """
+        self.inventory = inventory
+
+    @staticmethod
+    def cli_cmd(host, module, args):
+        """
+        Execute command on node by using Ansible.
+        :param args:
+        :param host:
+        :param module:
+        :param args:
+        :return:
+        """
+        command = ['ansible', host, '-m', module, '-a', *args]
+        process = LocalExec(command)
+        process.run_and_wait()
+        AnsibleCMD.__log.debug(process.get_stdout())
+        return process
+
+    @staticmethod
+    def cli_playbook(playbook, inventory, args):
+        """
+        Execute command on node by using Ansible.
+        :param playbook:
+        :param module:
+        :param inventory:
+        :param args:
+        :return:
+        """
+        # Check if Ansible playbook exists
+        if not os.path.exists(playbook):
+            AnsibleCMD.__log.debug('Wrong playbook: %s' % playbook)
+
+        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10', *args]
+        process = LocalExec(command)
+        process.run_and_wait()
+        return process
+
+
+@logged
+@traced
+class AnsibleExecution(Execution):
     """
     Ansible CLI Ad-Hoc Commands
     """
-    def __init__(self, hostname):
+    def __init__(self, hostname, ansible: AnsibleCMD):
         Execution.__init__(self, hostname=hostname)
-        self.inventory = None
+        self.ansible = ansible
 
     def _execute(self, command):
         """
@@ -23,10 +71,7 @@ class AnsibleCMD(Execution):
         if isinstance(command, str):
             command = [command]
 
-        AnsibleCMD.__log.info('Executing command on node %s..' % self.hostname)
-        AnsibleCMD.__log.debug('Executing command "%s" on node %s..' % (*command, self.hostname))
-        process = self.cli_cmd(moduleargs=command, host=self.hostname, module='shell')
-        AnsibleCMD.__log.debug(process.get_stdout())
+        process = self.ansible.cli_cmd(host=self.hostname, module='shell', args=command)
         return process
 
     def ping(self):
@@ -39,51 +84,20 @@ class AnsibleCMD(Execution):
         command = ['ansible', self.hostname, '-m', 'ping']
         process = LocalExec(command)
         process.run_and_wait()
-        AnsibleCMD.__log.info('Ping for node %s %s.' % (self.hostname,
-                                                        'passed' if process.get_ecode() == 0 else 'failed'))
+        self.ansible.cli_cmd(host=self.hostname, module='ping', args='data=pong')
+
+        # Logs
+        result = 'passed' if process.get_ecode() == 0 else 'failed'
+        AnsibleExecution.__log.info('Ping for node %s %s.' % (self.hostname, result))
 
         return True if process.get_ecode() == 0 else False
 
-    @staticmethod
-    def cli_cmd(moduleargs, host, module):
-        """
-        Execute command on node by using Ansible.
-        :param moduleargs:
-        :param host:
-        :param module:
-        :return:
-        """
-        command = ['ansible', host, '-m', module, '-a', *moduleargs]
-        AnsibleCMD.__log.debug(command)
 
-        process = LocalExec(command)
-        process.run_and_wait()
-        AnsibleCMD.__log.debug(process.get_stdout())
-
-        return process
-
-    @staticmethod
-    def cli_playbook(playbook, inventory, args):
-        """
-        Execute command on node by using Ansible.
-        :param playbook:
-        :param module:
-        :param args:
-        :return:
-        """
-
-        if not os.path.exists(playbook):
-            AnsibleCMD.__log.debug('Wrong playbook: %s' % playbook)
-
-        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10', *args]
-        AnsibleCMD.__log.debug(command)
-
-        process = LocalExec(command)
-        process.run_and_wait()
-        AnsibleCMD.__log.debug(process.get_stdout())
-
-        return process
-
+@logged
+@traced
 class AnsibleAPI(Execution):
+    """
+    @TODO Ansible API Usage
+    """
     def __init__(self, hostname):
         Execution.__init__(self, hostname=hostname)
