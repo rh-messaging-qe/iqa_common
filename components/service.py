@@ -1,3 +1,8 @@
+from autologging import logged, traced
+
+
+@logged
+@traced
 class Service:
     """
     Class for service handling.

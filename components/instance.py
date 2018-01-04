@@ -1,8 +1,11 @@
 # coding=utf-8
+from autologging import logged, traced
 from .nodes.node import Node
 from .nodes.executions.ansible import AnsibleCMD
 
 
+@logged
+@traced
 class IQAInstance:
     """
     iQA helper class
