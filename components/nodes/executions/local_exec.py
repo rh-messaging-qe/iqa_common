@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import logging
 import shlex
 import subprocess
@@ -12,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @logged
 @traced
-class LocalExec(object):
+class LocalExec:
     """
     Local process execution
 
