@@ -7,6 +7,7 @@ xtlog.config.config_all_default()
 xtlog.init()
 logger = logging.getLogger(__name__)
 
+
 def pytest_addoption(parser):
     """
     :param parser:
@@ -14,9 +15,8 @@ def pytest_addoption(parser):
     """
     iqa = parser.getgroup('iqa')
 
-    # Senders
-    iqa.addoption('--inventory', action='store', dest='inventory',
-                  metavar="INVENTORY_FILE", help='Inventory file.')
+    # Inventory
+    iqa.addoption('--inventory', action='store', dest='inventory', help='Inventory file.')
 
 
 def pytest_configure(config):
