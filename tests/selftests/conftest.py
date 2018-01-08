@@ -8,11 +8,23 @@ from components.instance import IQAInstance
 
 iqa_instance = IQAInstance()
 
+
+def pytest_namespace():
+    return {'iqa_instance': iqa_instance}
+
+
+@pytest.fixture
+def iqa():
+    """
+    IQA instance with accessible nodes, components
+    :return:
+    """
+    return pytest.iqa
+
+
 ########################
 # Section: Add option  #
 ########################
-
-
 def pytest_addoption(parser):
     components = parser.getgroup('iqa-components')
 
@@ -33,13 +45,12 @@ def pytest_addoption(parser):
 
 
 def pytest_configure(config):
-    # iqa_instance = IQAInstance(inventory=config.getvalue('inventory'))
     iqa_instance.inventory = config.getvalue('inventory')
 
-#############################
+
+##############################
 # Section: Parametrization  #
 #############################
-
 def pytest_generate_tests(metafunc):
     if 'sender' in metafunc.fixturenames:
         senders = list(metafunc.config.option.sender)
@@ -65,8 +76,6 @@ def pytest_generate_tests(metafunc):
 ########################
 # Section: Fixtures    #
 ########################
-
-
 @pytest.fixture()
 def sender(request):
     if 'native' in request.param:
