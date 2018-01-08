@@ -58,9 +58,9 @@ class AnsibleExecution(Execution):
     """
     Ansible CLI Ad-Hoc Commands
     """
-    def __init__(self, hostname, ansible: AnsibleCMD):
+    def __init__(self, hostname, ansible_cmd: AnsibleCMD):
         Execution.__init__(self, hostname=hostname)
-        self.ansible = ansible
+        self.ansible_cmd = ansible_cmd
 
     def _execute(self, command):
         """
@@ -71,7 +71,7 @@ class AnsibleExecution(Execution):
         if isinstance(command, str):
             command = [command]
 
-        process = self.ansible.cli_cmd(host=self.hostname, module='shell', args=command)
+        process = self.ansible_cmd.cli_cmd(host=self.hostname, module='shell', args=command)
         return process
 
     def ping(self):
@@ -84,7 +84,7 @@ class AnsibleExecution(Execution):
         command = ['ansible', self.hostname, '-m', 'ping']
         process = LocalExec(command)
         process.run_and_wait()
-        self.ansible.cli_cmd(host=self.hostname, module='ping', args='data=pong')
+        self.ansible_cmd.cli_cmd(host=self.hostname, module='ping', args='data=pong')
 
         # Logs
         result = 'passed' if process.get_ecode() == 0 else 'failed'

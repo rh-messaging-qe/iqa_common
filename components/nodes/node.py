@@ -2,7 +2,7 @@ from autologging import logged, traced
 
 import amom.node
 
-from .executions import AnsibleCMD
+from .executions import AnsibleCMD, AnsibleExecution
 from .executions import Executor
 
 
@@ -12,20 +12,20 @@ class Node(amom.node.Node):
     """
     Node component
     """
-    def __init__(self, hostname, execution=None):
+    def __init__(self, hostname, ansible: AnsibleCMD, ip=None, execution=None):
         amom.node.Node.__init__(self, hostname=hostname)
         Node.__log.info('Initialization of node %s..' % self.hostname)
-        self.ansible = AnsibleCMD(hostname)
+        self.ansible = AnsibleExecution(hostname, ansible_cmd=ansible)
         self.executor = Executor(hostname)
 
         # Execution, by default is used Ansible
-        self.execution = self.ansible
-
         if 'Executor' == execution:
             self.execution = self.executor
+        else:
+            self.execution = self.ansible
 
-        self.ip = self._get_ip()
-        self.components = None
+        self.ip = ip if ip else self._get_ip()
+        self.components = []
 
     def execute(self, command):
         """Execute command on node"""
@@ -40,6 +40,17 @@ class Node(amom.node.Node):
         cmd_ip = 'ip route | grep ^default | grep -oE [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
         process = self.execute(cmd_ip)
         return process.get_stdout()[1]
+
+    def new_component(self, component):
+        """
+        Adding component to under node
+
+        :param component
+        :return: Component object
+        """
+        component = component(hostname=self.hostname)
+        self.components.append(component)
+        return component
 
     # def get_components(self):
     #     """
