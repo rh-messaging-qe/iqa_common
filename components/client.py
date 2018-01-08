@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import threading
 
 from proton.handlers import MessagingHandler
@@ -61,7 +63,7 @@ class Sender(Client):
     Most basic example clients capable of sending messages
     """
 
-    def __init__(self, hostname="localhost", address="test_queue", count=1, messages=[], blocking=False):
+    def __init__(self, hostname="localhost", address="test_queue", count=1, messages=None, blocking=False):
         """
         :param hostname: hostname of the physical node with routers/brokers/receiver
         :type hostname: str
@@ -75,6 +77,8 @@ class Sender(Client):
         :type blocking: bool
         """
         super(Sender, self).__init__(blocking=blocking)
+        if messages is None:
+            messages = []
         self.hostname = hostname
         self.address = address
         self.counter = 0
