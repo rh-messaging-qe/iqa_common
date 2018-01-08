@@ -216,8 +216,8 @@ def strip_endline(in_arg):
     """
     if isinstance(in_arg, str):
         # input is string
-        return in_arg.splitlines()
+        return in_arg.rstrip().decode('utf-8')
     elif isinstance(in_arg, (tuple, list)):
-        return [x.splitlines() for x in in_arg]
+        return [x.rstrip().decode('utf-8') for x in in_arg]
     # input is unknown
     return in_arg
