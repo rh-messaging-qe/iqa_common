@@ -214,10 +214,22 @@ def strip_endline(in_arg):
     """
     remove eol characters Linux/Win/Mac (input can be string or list of strings)
     """
-    if isinstance(in_arg, str):
-        # input is string
+
+    if isinstance(in_arg, (tuple, list)):
+        for x in in_arg:
+            if isinstance(x, bytes):
+                return x.rstrip().decode('utf-8')
+            elif isinstance(x, str):
+                return x.rstrip()
+            else:
+                # input is unknown
+                return in_arg
+
+    elif isinstance(in_arg, bytes):
         return in_arg.rstrip().decode('utf-8')
-    elif isinstance(in_arg, (tuple, list)):
-        return [x.rstrip().decode('utf-8') for x in in_arg]
-    # input is unknown
-    return in_arg
+
+    elif isinstance(in_arg, str):
+        return in_arg.rstrip()
+    else:
+        # input is unknown
+        return in_arg
