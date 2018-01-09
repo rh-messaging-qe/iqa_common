@@ -7,6 +7,7 @@ class Service:
     """
     Class for service handling.
     """
+
     def __init__(self, service, name):
         """
 
@@ -40,37 +41,47 @@ class Service:
         Service enable.
         :return: executed process
         """
-        return self.service.node.ansible.ansible_cmd.cli_cmd(module='service', host=self.service.node.hostname,
-                                                         args=['name=%s enabled=yes' % self.name])
+        return self.service.node.ansible.ansible_cmd.cli_cmd(
+            module='service',
+            host=self.service.node.hostname,
+            args=['name=%s enabled=yes' % self.name])
 
     def disable(self):
         """
         Service enable.
         :return: executed process
         """
-        return self.service.node.ansible.ansible_cmd.cli_cmd(module='service', host=self.service.node.hostname,
-                                                         args=['name=%s enabled=no' % self.name])
+        return self.service.node.ansible.ansible_cmd.cli_cmd(
+            module='service',
+            host=self.service.node.hostname,
+            args=['name=%s enabled=no' % self.name])
 
     def restart(self):
         """
         Service restart.
         :return: executed process
         """
-        return self.service.node.ansible.ansible_cmd.cli_cmd(module='service', host=self.service.node.hostname,
-                                                         args=['name=%s state=restarted' % self.name])
+        return self.service.node.ansible.ansible_cmd.cli_cmd(
+            module='service',
+            host=self.service.node.hostname,
+            args=['name=%s state=restarted' % self.name])
 
     def start(self):
         """
         Service start.
         :return: executed process
         """
-        return self.service.node.ansible.ansible_cmd.cli_cmd(module='service', host=self.service.node.hostname,
-                                                         args=['name=%s state=started' % self.name])
+        return self.service.node.ansible.ansible_cmd.cli_cmd(
+            module='service',
+            host=self.service.node.hostname,
+            args=['name=%s state=started' % self.name])
 
     def stop(self):
         """
         Service stop.
         :return: executed process
         """
-        return self.service.node.ansible.ansible_cmd.cli_cmd(module='service', host=self.service.node.hostname,
-                                                         args=['name=%s state=stopped' % self.name])
+        return self.service.node.ansible.ansible_cmd.cli_cmd(
+            module='service',
+            host=self.service.node.hostname,
+            args=['name=%s state=stopped' % self.name])
