@@ -39,7 +39,8 @@ class Node(amom.node.Node):
         """Get ip of node"""
         cmd_ip = 'ip route | grep ^default | grep -oE [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
         process = self.execute(cmd_ip)
-        return process.get_stdout()[1]
+        process.wait_for_exit()
+        return process.get_stdout()
 
     def new_component(self, component):
         """
