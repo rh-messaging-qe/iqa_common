@@ -176,7 +176,7 @@ class LocalExec:
         """
         if not self.finished():
             self._sync_stdx()
-        return strip_endline(self.stdout)
+        return strip_endlines(self.stdout)
 
     def get_stderr(self):
         """
@@ -184,7 +184,7 @@ class LocalExec:
         """
         if not self.finished():
             self._sync_stdx()
-        return strip_endline(self.stderr)
+        return strip_endlines(self.stderr)
 
     def get_stdin(self):
         """
@@ -210,20 +210,22 @@ class LocalExec:
         return ts_end - self.ts_start
 
 
-def strip_endline(in_arg):
+def strip_endlines(in_arg):
     """
     remove eol characters Linux/Win/Mac (input can be string or list of strings)
     """
 
     if isinstance(in_arg, (tuple, list)):
+        buff = []
         for x in in_arg:
             if isinstance(x, bytes):
-                return x.rstrip().decode('utf-8')
+                buff.append(x.rstrip().decode('utf-8'))
             elif isinstance(x, str):
-                return x.rstrip()
+                buff.append(x.rstrip())
             else:
                 # input is unknown
-                return in_arg
+                buff.append(in_arg)
+        return buff
 
     elif isinstance(in_arg, bytes):
         return in_arg.rstrip().decode('utf-8')
