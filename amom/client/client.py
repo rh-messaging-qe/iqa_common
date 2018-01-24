@@ -15,13 +15,8 @@ class Client:
     version = ''
     ###
 
-    # attribute-argument mapping dictionary
-    cli_params_transformation = odict()
-    attribute_prefix = "_c_"
-
     def __init__(self):
         self.logs = None  # @TODO
-        self._init_attributes(self)
 
     @property
     def get_supported_protocols(self):
@@ -38,6 +33,28 @@ class Client:
     @staticmethod
     def _not_supported():
         print("Function %s is not supported for this client." % stack()[1][3])
+
+
+class NativeClient(Client):
+    def __init__(self):
+        Client.__init__(self)
+
+
+class LocalhostClient(Client):
+    def __init__(self):
+        Client.__init__(self)
+
+
+class ExternalClient(Client):
+
+    # attribute-argument mapping dictionary
+    cli_params_transformation = odict()
+    attribute_prefix = "_c_"
+
+    def __init__(self, node: Node):
+        Client.__init__(self)
+        self.node = node
+        self._init_attributes(self)
 
     def _init_attributes(self):
         """
@@ -58,22 +75,6 @@ class Client:
             name = self.attribute_prefix + name
             if hasattr(self, name):
                 self.__setattr__(name, value)
-
-
-class NativeClient(Client):
-    def __init__(self):
-        Client.__init__(self)
-
-
-class LocalhostClient(Client):
-    def __init__(self):
-        Client.__init__(self)
-
-
-class ExternalClient(Client):
-    def __init__(self, node: Node):
-        Client.__init__(self)
-        self.node = node
 
     def _run(self):
         self._not_supported()
