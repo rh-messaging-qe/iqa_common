@@ -51,17 +51,18 @@ class ExternalClient(Client):
     cli_params_transformation = odict()
     attribute_prefix = "_c_"
 
-    def __init__(self, node: Node):
+    def __init__(self):
         Client.__init__(self)
-        self.node = node
+        # self.node = node
         self._init_attributes(self)
 
+    @staticmethod
     def _init_attributes(self):
         """
         Method for init class attributes based on clients attributes.
         :return:
         """
-        for name, value in self.cli_params_transformation:
+        for name, value in self.cli_params_transformation.items():
             name = self.attribute_prefix + name
             self.__setattr__(name, value)
 

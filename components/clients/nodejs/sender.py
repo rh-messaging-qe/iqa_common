@@ -71,7 +71,6 @@ class Sender(Client, amom.client.Sender):
         amom.client.Sender.__init__(self)
         Client.__init__(self)
 
-
     def _send_message(self, **kwargs):
         """
         Method for send message.

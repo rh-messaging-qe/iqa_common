@@ -1,9 +1,18 @@
 from autologging import logged, traced
+from amom.node import Node
 from odict import odict
 
 
 import components.network.aplication.messaging as protocols
 from amom.client.client import ExternalClient
+
+
+class Timeout:
+    def __init__(self, handler):
+        self.registrated_handler = handler
+
+    def on_timer_task(self, event):
+        self.registrated_handler.timeout(event)
 
 
 @logged

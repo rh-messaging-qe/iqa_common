@@ -1,10 +1,12 @@
 import pytest
 
 import components.clients.core as core
+import components.clients.nodejs as nodejs
 # from components.nodes import Node
 from components.brokers.artemis import Artemis
 from components.routers.dispatch.dispatch import Dispatch
 from components.instance import IQAInstance
+
 
 iqa_instance = IQAInstance()
 
@@ -81,7 +83,7 @@ def sender(request):
     if 'native' in request.param:
         return core.Sender()
     elif 'nodejs' in request.param:
-        return core.Sender()
+        return nodejs.Sender()
     elif 'python' in request.param:
         return core.Sender()
 
@@ -91,7 +93,7 @@ def receiver(request):
     if 'native' in request.param:
         return core.Receiver()
     elif 'nodejs' in request.param:
-        return core.Receiver()
+        return nodejs.Receiver()
     elif 'python' in request.param:
         return core.Receiver()
 
@@ -127,6 +129,7 @@ def router(request):
         return Dispatch(node=router_node)
     elif 'interconnect' in request.param:
         return Dispatch(node=router_node)
+
 
 
 @pytest.fixture()
