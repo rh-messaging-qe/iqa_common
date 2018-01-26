@@ -16,44 +16,54 @@ class Receiver(Client, amom.client.Receiver):
 
     cli_params_transformation = odict([
         ('help', '--help'),
-        ('timeout', '--timeout %s'),
+        # Control options
+        ('recv_msg_selector', '--recv-selector "%s"'),
+        ('recv_browse', '--recv-browse'),
+        ('action', '--action %s'),
+        ('capacity', '--capacity %s'),
+        ('process_reply_to', '--process-reply-to'),
+        ('recv_listen', '--recv-listen %s'),
+        ('recv_listen_port', '--recv-listen-port %s'),
+        ('duration', '--duration %s'),
+        ('broker_url', '--broker %s'),
+        ('broker_address', '--address "%s"'),
+        ('msg_cnt', '--count %s'),
         ('close_sleep', '--close-sleep %s'),
+        ('timeout', '--timeout %s'),
 
-        ('broker_url',  '--broker %s'),
+        # Logging options
+        ('log_msgs', '--log-msgs %s'),
+        ('log_lib', '--log-lib %s'),
+        ('log_stats', '--log-stats %s'),
+
+        # Link options
+        ('link_at_most_once', '--link-at-most-once'),
+        ('link_at_least_once', '--link-at-least-once'),
+        ('link_durable', '--link-durable %s'),
+
+        # Connection options
+        ('conn_urls', '--conn-urls %s'),
+        ('conn_reconnect', '--conn-reconnect %s'),
+        ('conn_reconnect_interval', '--conn-reconnect-interval %s'),
+        ('conn_reconnect_limit', '--conn-reconnect-limit %s'),
+        ('conn_reconnect_timeout', '--conn-reconnect-timeout %s'),
+        ('conn_heartbeat', '--conn-heartbeat %s'),
+        ('conn_ssl', '--conn-ssl %s'),
+        ('conn_ssl_certificate', '--conn-ssl-certificate %s'),
+        ('conn_ssl_password', '--conn-ssl-password %s'),
+        ('conn_ssl_trust_store', '--conn-ssl-trust-store %s'),
+        ('conn_ssl_verify_peer', '--conn-ssl-verify-peer %s'),
+        ('conn_ssl_verify-peer-name', '--conn-ssl-verify-peer-name %s'),
+        ('conn_web_socket', '--conn-web-socket %s'),
+        ('conn_max_frame_size', '--conn-max-frame-size %s'),
+
+        # Other options
         ('transport', None),
         ('host', None),
         ('port', None),
         ('username', None),
         ('password', None),
-        ('address', '--address "%s"'),
-
-        ('log_msgs', '--log-msgs %s'),
-        ('log_lib', '--log-lib %s'),
-        ('log_stats', '--log-stats %s'),
-
-        ('msg_cnt', '--count %s'),
-        ('msg_accept', '--action %s'),
-        ('recv_msg_selector', '--recv-selector "%s"'),
-
-        ('duration', '--duration %s'),
-        ('duration_mode', '--duration-mode %s'),
-
-        ('conn_urls', '--conn-urls %s'),
-        ('conn_reconnect', '--conn-reconnect %s'),
-        ('conn_heartbeat', '--conn-heartbeat %s'),
-        ('conn_ssl_domain', '--conn-ssl-domain %s'),
-        ('conn_max_frame_size', '--conn-max-frame-size %s'),
-
-        ('at_most_once', '--link-at-most-once'),
-        ('at_least_once', '--link-at-least-once'),
-        ('recv_listen', '--recv-listen %s'),
-        ('recv_listen_port', '--recv-listen-port %s'),
-
-        ('process_reply_to', '--process-reply-to'),
-        ('selector', '--recv-selector %s'),
-        ('recv_browse', '--recv-browse'),
-
-        ('capacity', '--capacity %s')
+        ('address', None)
     ])
 
     def __init__(self):

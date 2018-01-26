@@ -16,29 +16,45 @@ class Connector(Client, amom.client.Connector):
 
     cli_params_transformation = odict([
         ('help', '--help'),
+        # Control options
+        ('timeout', '--timeout %s'),
+        ('close_sleep', '--close-sleep %s'),
+        ('broker_url', '--broker %s'),
+        ('broker_address', '--address %s'),
+        ('count', '--count %s'),
+        ('link_durable', '--link-durable %s'),
 
-        ('broker-url', "--broker %s"),
+        # Logging options
+        ('log-lib', '--log-lib %s'),
+        ('log-stats', '--log-stats %s'),
+
+        # Connection options
+        ('conn_urls', '--conn-urls %s'),
+        ('conn_reconnect', '--conn-reconnect %s'),
+        ('conn_reconnect_interval', '--conn-reconnect-interval %s'),
+        ('conn_reconnect_limit', '--conn-reconnect-limit %s'),
+        ('conn_reconnect_timeout', '--conn-reconnect-timeout %s'),
+        ('conn_heartbeat', '--conn-heartbeat %s'),
+        ('conn_ssl', '--conn-ssl %s'),
+        ('conn_ssl_certificate', '--conn-ssl-certificate %s'),
+        ('conn_ssl_private_key', '--conn-ssl-private-key %s'),
+        ('conn_ssl_password', '--conn-ssl-password %s'),
+        ('conn_ssl_trust_store', '--conn-ssl-trust-store %s'),
+        ('conn_ssl_verify_peer', '--conn-ssl-verify-peer'),
+        ('conn_ssl_verify_peer_name', '--conn-ssl-verify-peer-name'),
+        ('conn_max_frame_size', '--conn-max-frame-size %s'),
+        ('conn_web_socket', '--conn-web-socket %s'),
+
+        # Connector options
+        ('obj-ctrl', '--obj-ctrl %s'),
+
+        # Other
         ('transport', None),
         ('host', None),
         ('port', None),
         ('username', None),
         ('password', None),
-        ('address', '--address "%s"'),
-
-        ('count', '--count %s'),
-        ('close-sleep', '--close-sleep %s'),
-
-        ('log-lib', '--log-lib %s'),
-        ('log-stats', '--log-stats %s'),
-
-        ('conn-urls', '--conn-urls %s'),
-        ('conn-reconnect', '--conn-reconnect %s'),
-        ('conn-heartbeat', '--conn-heartbeat %s'),
-        ('conn-ssl-domain', '--conn-ssl-domain %s'),
-        ('conn-handler', '--conn-handler %s'),
-
-        ('obj-ctrl', '--obj-ctrl %s'),
-        ('sync-mode', '--sync-mode %s')
+        ('address', None)
     ])
 
     def __init__(self):
