@@ -16,7 +16,7 @@ def test_name(sender: Sender):
     Check if created sender is available in the test-suite.
     :param sender:
     """
-    clients = ['Internal core client','NodeJS RHEA client']
+    clients = ['Internal core client','NodeJS RHEA client', 'Python Proton client']
     assert (sender.name in clients) == True
 
 

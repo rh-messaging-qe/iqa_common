@@ -2,6 +2,7 @@ import pytest
 
 import components.clients.core as core
 import components.clients.nodejs as nodejs
+import components.clients.python as python
 # from components.nodes import Node
 from components.brokers.artemis import Artemis
 from components.routers.dispatch.dispatch import Dispatch
@@ -85,7 +86,7 @@ def sender(request):
     elif 'nodejs' in request.param:
         return nodejs.Sender()
     elif 'python' in request.param:
-        return core.Sender()
+        return python.Sender()
 
 
 @pytest.fixture()
@@ -95,7 +96,7 @@ def receiver(request):
     elif 'nodejs' in request.param:
         return nodejs.Receiver()
     elif 'python' in request.param:
-        return core.Receiver()
+        return python.Receiver()
 
 
 broker_node = iqa_instance.new_node(hostname='ic01-r6i')

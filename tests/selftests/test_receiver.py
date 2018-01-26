@@ -14,7 +14,7 @@ def test_name(receiver: Receiver):
     Check if created receiver is available in the test-suite.
     :param receiver:
     """
-    clients = ['Internal core client','NodeJS RHEA client']
+    clients = ['Internal core client','NodeJS RHEA client', 'Python Proton client']
     assert (receiver.name in clients) == True
 
 
