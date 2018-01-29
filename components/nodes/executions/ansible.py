@@ -1,7 +1,9 @@
 from autologging import logged, traced
+
+import os
+
 from .execution import Execution
 from .local_exec import LocalExec
-import os
 
 
 @logged
@@ -10,6 +12,7 @@ class AnsibleCMD:
     """
     Ansible program abstraction
     """
+
     def __init__(self, inventory):
         """
         :param inventory:
@@ -29,7 +32,6 @@ class AnsibleCMD:
         command = ['ansible', host, '-m', module, '-a', *args]
         process = LocalExec(command)
         process.run_and_wait()
-        AnsibleCMD.__log.debug(process.get_stdout())
         return process
 
     @staticmethod
@@ -58,6 +60,7 @@ class AnsibleExecution(Execution):
     """
     Ansible CLI Ad-Hoc Commands
     """
+
     def __init__(self, hostname, ansible_cmd: AnsibleCMD):
         Execution.__init__(self, hostname=hostname)
         self.ansible_cmd = ansible_cmd
@@ -99,5 +102,6 @@ class AnsibleAPI(Execution):
     """
     @TODO Ansible API Usage
     """
+
     def __init__(self, hostname):
         Execution.__init__(self, hostname=hostname)
