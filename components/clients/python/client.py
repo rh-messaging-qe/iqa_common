@@ -25,5 +25,5 @@ class Client(ExternalClient):
     name = 'Python Proton client'
     version = '1.0.1'
 
-    def __init__(self):
-        ExternalClient.__init__(self)
+    def __init__(self, node: Node):
+        ExternalClient.__init__(self, node)

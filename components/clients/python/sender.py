@@ -3,6 +3,7 @@ from odict import odict
 
 import amom.client
 from .client import Client
+from components.nodes.node import Node
 
 
 @logged
@@ -89,12 +90,12 @@ class Sender(Client, amom.client.Sender):
     ])
 
 
-    def __init__(self):
+    def __init__(self, node: Node):
         """
         Methd for init Python sender.
         """
         amom.client.Sender.__init__(self)
-        Client.__init__(self)
+        Client.__init__(self, node)
 
     def _send_message(self, **kwargs):
         """

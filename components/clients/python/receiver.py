@@ -3,7 +3,7 @@ from odict import odict
 
 import amom.client
 from .client import Client
-
+from components.nodes.node import Node
 
 @logged
 @traced
@@ -84,9 +84,9 @@ class Receiver(Client, amom.client.Receiver):
         ('address', None)
     ])
 
-    def __init__(self):
+    def __init__(self, node: Node):
         """
         Method for init receiver.
         """
         amom.client.Receiver.__init__(self)
-        Client.__init__(self)
+        Client.__init__(self, node)
