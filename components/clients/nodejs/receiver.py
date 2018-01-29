@@ -2,6 +2,7 @@ from autologging import logged, traced
 from odict import odict
 
 import amom.client
+from components.nodes.node import Node
 from .client import Client
 
 
@@ -11,15 +12,16 @@ class Receiver(Client, amom.client.Receiver):
     """
     External NodeJS receiver client
     """
-    # client is installed from cli-rhea
+    # client is installed from cli-rhea, node_app is there only for backward compatibility
     cli_command = odict([('nodejs', 'cli-rhea-receiver')])
 
+    # Client-sender params for build execute command
     cli_params_transformation = odict([
         ('help', '--help'),
         ('timeout', '--timeout %s'),
         ('close_sleep', '--close-sleep %s'),
 
-        ('broker_url',  '--broker %s'),
+        ('broker_url', '--broker %s'),
         ('transport', None),
         ('host', None),
         ('port', None),
@@ -56,9 +58,9 @@ class Receiver(Client, amom.client.Receiver):
         ('capacity', '--capacity %s')
     ])
 
-    def __init__(self):
+    def __init__(self, node: Node):
         """
         Method for init receiver.
         """
         amom.client.Receiver.__init__(self)
-        Client.__init__(self)
+        Client.__init__(self, node)

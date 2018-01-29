@@ -2,6 +2,7 @@ from autologging import logged, traced
 from odict import odict
 
 import amom.client
+from components.nodes.node import Node
 from .client import Client
 
 
@@ -11,9 +12,10 @@ class Sender(Client, amom.client.Sender):
     """
     External NodeJS sender client
     """
-    # client is installed from cli-rhea, node_app is there only for backward compability
+    # client is installed from cli-rhea, node_app is there only for backward compatibility
     cli_command = odict([('nodejs', 'cli-rhea-sender')])
-    # Client-sender params for build execute command
+
+    # Client-receiver params for build execute command
     cli_params_transformation = odict([
         ('help', '--help'),
         ('timeout', '--timeout %s'),
@@ -64,13 +66,12 @@ class Sender(Client, amom.client.Sender):
         ('capacity', '--capacity %s')
     ])
 
-    def __init__(self):
+    def __init__(self, node: Node):
         """
-        Methd for init NodeJS sender.
+        Method for init NodeJS sender.
         """
         amom.client.Sender.__init__(self)
-        Client.__init__(self)
-
+        Client.__init__(self, node)
 
     def _send_message(self, **kwargs):
         """
