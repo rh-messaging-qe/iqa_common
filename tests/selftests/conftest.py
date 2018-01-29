@@ -1,15 +1,19 @@
 import pytest
 
-import components.clients.core as core
-# from components.nodes import Node
+# from components import clients, routers, brokers
+from components.clients import nodejs, core
 from components.brokers.artemis import Artemis
-from components.routers.dispatch.dispatch import Dispatch
+from components.routers.dispatch import Dispatch
+
 from components.instance import IQAInstance
 
 iqa_instance = IQAInstance()
 
 
 def pytest_namespace():
+    """
+    Provide iqa_instance to pytest global namespace
+    """
     return {'iqa_instance': iqa_instance}
 
 
@@ -26,6 +30,9 @@ def iqa():
 # Section: Add option  #
 ########################
 def pytest_addoption(parser):
+    """
+    Add messaging options to py.test runner
+    """
     components = parser.getgroup('iqa-components')
 
     # Senders
@@ -45,6 +52,7 @@ def pytest_addoption(parser):
 
 
 def pytest_configure(config):
+    """into iqa instance"""
     iqa_instance.inventory = config.getvalue('inventory')
 
 
@@ -52,51 +60,85 @@ def pytest_configure(config):
 # Section: Parametrization  #
 #############################
 def pytest_generate_tests(metafunc):
+    """
+    Generate clients, brokers, matrix
+    :param metafunc:
+    :return:
+    """
     if 'sender' in metafunc.fixturenames:
-        senders = list(metafunc.config.option.sender)
-        metafunc.parametrize('sender', senders, indirect=True)
+        g_senders = list(metafunc.config.option.sender)
+        metafunc.parametrize('sender', g_senders, indirect=True)
 
     if 'receiver' in metafunc.fixturenames:
-        receivers = list(metafunc.config.option.receiver)
-        metafunc.parametrize('receiver', receivers, indirect=True)
+        g_receivers = list(metafunc.config.option.receiver)
+        metafunc.parametrize('receiver', g_receivers, indirect=True)
 
     if 'broker' in metafunc.fixturenames:
-        brokers = list(metafunc.config.option.broker)
-        metafunc.parametrize('broker', brokers, indirect=True)
+        g_brokers = list(metafunc.config.option.broker)
+        metafunc.parametrize('broker', g_brokers, indirect=True)
 
     if 'router' in metafunc.fixturenames:
-        routers = list(metafunc.config.option.router)
-        metafunc.parametrize('router', routers, indirect=True)
+        g_routers = list(metafunc.config.option.router)
+        metafunc.parametrize('router', g_routers, indirect=True)
 
     if 'tls' in metafunc.fixturenames:
-        tls = list(metafunc.config.option.tls)
-        metafunc.parametrize('tls', tls, indirect=True)
+        g_tls = list(metafunc.config.option.tls)
+        metafunc.parametrize('tls', g_tls, indirect=True)
 
 
 ########################
 # Section: Fixtures    #
 ########################
+
+broker_node = iqa_instance.new_node(hostname='ic01')
+router_node = iqa_instance.new_node(hostname='ic02')
+client_node = iqa_instance.new_node(hostname='ic03')
+
+core_sender = core.Sender()
+core_receiver = core.Receiver()
+
+nodejs_sender = iqa_instance.new_component(node=client_node, component=nodejs.Sender)
+nodejs_receiver = iqa_instance.new_component(node=client_node, component=nodejs.Receiver)
+
+python_sender = iqa_instance.new_component(node=client_node, component=nodejs.Sender)
+python_receiver = iqa_instance.new_component(node=client_node, component=nodejs.Receiver)
+
+amq6 = iqa_instance.new_component(node=broker_node, component=Artemis)
+amq7 = iqa_instance.new_component(node=broker_node, component=Artemis)
+artemis = iqa_instance.new_component(node=broker_node, component=Artemis)
+
+dispatch = iqa_instance.new_component(node=router_node, component=Dispatch)
+
+
 @pytest.fixture()
 def sender(request):
+    """
+    Sender fixture client
+    :param request:
+    :return:
+    """
     if 'native' in request.param:
-        return core.Sender()
+        return core_sender
     elif 'nodejs' in request.param:
-        return core.Sender()
+        return core_sender
     elif 'python' in request.param:
-        return core.Sender()
+        return core_sender
 
 
 @pytest.fixture()
 def receiver(request):
+    """
+    Receiver fixture client
+    :param request:
+    :return:
+    """
     if 'native' in request.param:
-        return core.Receiver()
+        return core_receiver
     elif 'nodejs' in request.param:
-        return core.Receiver()
+        return core_receiver
     elif 'python' in request.param:
-        return core.Receiver()
+        return core_receiver
 
-
-broker_node = iqa_instance.new_node(hostname='ic01-r6i')
 
 @pytest.fixture()
 def broker(request):
@@ -106,14 +148,11 @@ def broker(request):
     """
 
     if 'artemis' in request.param:
-        return Artemis(node=broker_node)
+        return artemis
     elif 'amq7' in request.param:
-        return Artemis(node=broker_node)
+        return artemis
     elif 'amq6' in request.param:
-        return Artemis(node=broker_node)
-
-
-router_node = iqa_instance.new_node(hostname='ic01-r6i')
+        return artemis
 
 
 @pytest.fixture()
@@ -124,9 +163,9 @@ def router(request):
     :return: Router object
     """
     if 'dispatch' in request.param:
-        return Dispatch(node=router_node)
+        return dispatch
     elif 'interconnect' in request.param:
-        return Dispatch(node=router_node)
+        return dispatch
 
 
 @pytest.fixture()
