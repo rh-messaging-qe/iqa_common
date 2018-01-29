@@ -13,6 +13,7 @@ class Client:
     supported_protocols = []
     name = ''
     version = ''
+
     ###
 
     def __init__(self):
@@ -33,6 +34,7 @@ class Client:
     @staticmethod
     def _not_supported():
         print("Function %s is not supported for this client." % stack()[1][3])
+        raise NotImplemented
 
 
 class NativeClient(Client):
@@ -46,6 +48,11 @@ class LocalhostClient(Client):
 
 
 class ExternalClient(Client):
+    """
+    External CLI based clients
+
+    @TODO move to components
+    """
 
     # attribute-argument mapping dictionary
     cli_params_transformation = odict()
@@ -56,12 +63,13 @@ class ExternalClient(Client):
         self.node = node
         self._init_attributes(self)
 
+    @staticmethod
     def _init_attributes(self):
         """
         Method for init class attributes based on clients attributes.
         :return:
         """
-        for name, value in self.cli_params_transformation:
+        for name, value in self.cli_params_transformation.items():
             name = self.attribute_prefix + name
             self.__setattr__(name, value)
 
