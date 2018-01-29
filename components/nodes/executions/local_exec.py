@@ -137,7 +137,9 @@ class LocalExec:
         try:
             self.process.communicate()
             self.process.wait()
+            self.ts_stop = time.time()
             LocalExec.__log.debug("ecode: %s" % self.process.returncode)
+            LocalExec.__log.debug("Execution time: %s sec" % self.get_duration())
             self._read_stdx()
         except IOError as exc:
             LocalExec.__log.warning("wait_for_exit(): process error %s" % exc)
