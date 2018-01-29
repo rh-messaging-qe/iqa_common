@@ -58,9 +58,9 @@ class ExternalClient(Client):
     cli_params_transformation = odict()
     attribute_prefix = "_c_"
 
-    def __init__(self):
+    def __init__(self, node: Node):
         Client.__init__(self)
-        # self.node = node
+        self.node = node
         self._init_attributes(self)
 
     @staticmethod
