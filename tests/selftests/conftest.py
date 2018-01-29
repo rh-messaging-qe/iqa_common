@@ -101,8 +101,8 @@ core_receiver = core.Receiver()
 nodejs_sender = iqa_instance.new_component(node=client_node, component=nodejs.Sender)
 nodejs_receiver = iqa_instance.new_component(node=client_node, component=nodejs.Receiver)
 
-python_sender = iqa_instance.new_component(node=client_node, component=nodejs.Sender)
-python_receiver = iqa_instance.new_component(node=client_node, component=nodejs.Receiver)
+python_sender = iqa_instance.new_component(node=client_node, component=python.Sender)
+python_receiver = iqa_instance.new_component(node=client_node, component=python.Receiver)
 
 amq6 = iqa_instance.new_component(node=broker_node, component=Artemis)
 amq7 = iqa_instance.new_component(node=broker_node, component=Artemis)
@@ -121,9 +121,9 @@ def sender(request):
     if 'native' in request.param:
         return core_sender
     elif 'nodejs' in request.param:
-        return core_sender
+        return nodejs_sender
     elif 'python' in request.param:
-        return core_sender
+        return python_sender
 
 
 @pytest.fixture()
@@ -136,9 +136,9 @@ def receiver(request):
     if 'native' in request.param:
         return core_receiver
     elif 'nodejs' in request.param:
-        return core_receiver
+        return nodejs_receiver
     elif 'python' in request.param:
-        return core_receiver
+        return python_receiver
 
 
 @pytest.fixture()
