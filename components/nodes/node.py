@@ -12,6 +12,7 @@ class Node(amom.node.Node):
     """
     Node component
     """
+
     def __init__(self, hostname, ansible: AnsibleCMD, ip=None, execution=None):
         amom.node.Node.__init__(self, hostname=hostname)
         Node.__log.info('Initialization of node %s..' % self.hostname)
@@ -39,7 +40,6 @@ class Node(amom.node.Node):
         """Get ip of node"""
         cmd_ip = 'ip route | grep ^default | grep -oE [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
         process = self.execute(cmd_ip)
-        process.wait_for_exit()
         return process.get_stdout()
 
     def new_component(self, component):
@@ -49,7 +49,7 @@ class Node(amom.node.Node):
         :param component
         :return: Component object
         """
-        component = component(hostname=self.hostname)
+        component = component(node=self)
         self.components.append(component)
         return component
 
