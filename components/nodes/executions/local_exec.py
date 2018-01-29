@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""
+DOC STRING
+"""
 import logging
 import shlex
 import subprocess
@@ -104,8 +106,7 @@ class LocalExec:
         # assign start timestamp
         self.ts_start = time.time()
 
-        # self.exec_log_adapter.debug(command)
-        LocalExec.__log.debug(command)
+        LocalExec.__log.debug('COMMAND: "%s"' % ' '.join(command))
 
         # call the process
         self.process = subprocess.Popen(
@@ -136,7 +137,9 @@ class LocalExec:
         try:
             self.process.communicate()
             self.process.wait()
+            self.ts_stop = time.time()
             LocalExec.__log.debug("ecode: %s" % self.process.returncode)
+            LocalExec.__log.debug("Execution time: %s sec" % self.get_duration())
             self._read_stdx()
         except IOError as exc:
             LocalExec.__log.warning("wait_for_exit(): process error %s" % exc)
@@ -150,6 +153,14 @@ class LocalExec:
         """
         self.start()
         self.wait_for_exit()
+        if self.get_stdout():
+            LocalExec.__log.debug('STDOUT:\n%s' % '\n'.join(self.get_stdout()))
+        else:
+            LocalExec.__log.debug('STDOUT: EMPTY')
+        if self.get_stderr():
+            LocalExec.__log.debug('STDERR:\n%s' % '\n'.join(self.get_stderr()))
+        else:
+            LocalExec.__log.debug('STDERR: EMPTY')
         return self.ecode
 
     def get_ecode(self):
