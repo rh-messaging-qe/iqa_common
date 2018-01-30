@@ -71,7 +71,7 @@ class ExternalClient(Client):
         """
         for name, value in self.cli_params_transformation.items():
             name = self.attribute_prefix + name
-            self.__setattr__(name, value)
+            self.__setattr__(name, None)
 
     def _set_attr_values(self, **kwargs):
         """
@@ -102,14 +102,15 @@ class ExternalClient(Client):
         """
         attributes = filter(lambda a: a.startswith(self.attribute_prefix), dir(self))
 
-        command = []
+        command = self.cli_command
 
-        for item in self.cli_params_transformation:
-            value = getattr(self, item)
-            if item in attributes and value is not None:
+        for item in attributes:
+            value = self.__getattribute__(item)
+            if value is not None:
                 if isinstance(value, bool):
-                    command.append(self.cli_params_transformation[item])
+                    command.append(self.cli_params_transformation[item[3:]])
                 else:
-                    command.append(self.cli_params_transformation[item] % value)
+                    command.append(self.cli_params_transformation[item[3:]] % value)
 
         return command
+
