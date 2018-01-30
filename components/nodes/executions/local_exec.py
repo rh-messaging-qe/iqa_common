@@ -153,14 +153,17 @@ class LocalExec:
         """
         self.start()
         self.wait_for_exit()
-        if self.get_stdout():
-            LocalExec.__log.debug('STDOUT:\n%s' % '\n'.join(self.get_stdout()))
-        else:
-            LocalExec.__log.debug('STDOUT: EMPTY')
-        if self.get_stderr():
-            LocalExec.__log.debug('STDERR:\n%s' % '\n'.join(self.get_stderr()))
-        else:
-            LocalExec.__log.debug('STDERR: EMPTY')
+
+        # STDOUT DEBUG
+        stdo = self.get_stdout()
+        stdo = '\n%s' % '\n'.join(stdo) if stdo else "EMPTY"
+        LocalExec.__log.debug('STDOUT: %s' % stdo)
+
+        # STDERR DEBUG
+        stde = self.get_stderr()
+        stde = '\n%s' % '\n'.join(stde) if stde else "EMPTY"
+        LocalExec.__log.debug('STDERR: %s' % stde)
+
         return self.ecode
 
     def get_ecode(self):
