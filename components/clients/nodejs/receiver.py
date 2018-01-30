@@ -13,7 +13,7 @@ class Receiver(Client, amom.client.Receiver):
     External NodeJS receiver client
     """
     # client is installed from cli-rhea, node_app is there only for backward compatibility
-    cli_command = odict([('nodejs', 'cli-rhea-receiver')])
+    cli_command = ['cli-rhea-receiver']
 
     # Client-sender params for build execute command
     cli_params_transformation = odict([

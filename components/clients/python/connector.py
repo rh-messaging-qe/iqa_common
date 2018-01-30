@@ -12,7 +12,7 @@ class Connector(Client, amom.client.Connector):
     External Python-Proton connector client
     """
     # client is installed from cli-rhea, node_app is there only for backward compatibility
-    cli_command = odict([('python', 'cli-proton-python-connector')])
+    cli_command = ['cli-proton-python-connector']
 
     cli_params_transformation = odict([
         ('help', '--help'),

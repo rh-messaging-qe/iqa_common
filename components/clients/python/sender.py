@@ -13,7 +13,7 @@ class Sender(Client, amom.client.Sender):
     External Python-Proton sender client
     """
     # client is installed from cli-rhea, node_app is there only for backward compability
-    cli_command = odict([('python', 'cli-proton-python-sender')])
+    cli_command = ['cli-proton-python-sender']
     # Client-sender params for build execute command
     cli_params_transformation = odict([
         ('help', '--help'),

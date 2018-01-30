@@ -13,7 +13,7 @@ class Sender(Client, amom.client.Sender):
     External NodeJS sender client
     """
     # client is installed from cli-rhea, node_app is there only for backward compatibility
-    cli_command = odict([('nodejs', 'cli-rhea-sender')])
+    cli_command = ['cli-rhea-sender']
 
     # Client-receiver params for build execute command
     cli_params_transformation = odict([

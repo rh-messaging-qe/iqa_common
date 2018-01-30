@@ -12,7 +12,7 @@ class Receiver(Client, amom.client.Receiver):
     External Python-Proton receiver client
     """
     # client is installed from cli-rhea
-    cli_command = odict([('python', 'cli-proton-python-receiver')])
+    cli_command = ['cli-proton-python-receiver']
 
     cli_params_transformation = odict([
         ('help', '--help'),
