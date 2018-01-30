@@ -32,6 +32,7 @@ iQA test suite is based on py.test runner and it's designed for testing messagin
 ### Create & activate virtual environment
 ```
 virtualenv3 venv
+source venv/bin/activate
 ```
 ### Install dependencies
 ```
