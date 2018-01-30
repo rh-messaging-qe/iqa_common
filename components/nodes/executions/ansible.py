@@ -30,6 +30,9 @@ class AnsibleCMD:
         :param args:
         :return:
         """
+        if len(args) > 1:
+            args = [' '.join(args)]
+
         command = ['ansible', host, '-m', module, '-a'] + args
         process = LocalExec(command)
         process.run_and_wait()
