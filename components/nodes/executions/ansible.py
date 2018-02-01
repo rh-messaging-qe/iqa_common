@@ -29,7 +29,7 @@ class AnsibleCMD:
         :param args:
         :return:
         """
-        command = ['ansible', host, '-m', module, '-a', *args]
+        command = ['ansible', host, '-m', module, '-a'] + args
         process = LocalExec(command)
         process.run_and_wait()
         return process
@@ -38,9 +38,8 @@ class AnsibleCMD:
     def cli_playbook(playbook, inventory, args):
         """
         Execute command on node by using Ansible.
-        :param playbook:
-        :param module:
-        :param inventory:
+        :param playbook: Path to playbook
+        :param inventory: Path to hosts inventory
         :param args:
         :return:
         """
@@ -48,7 +47,7 @@ class AnsibleCMD:
         if not os.path.exists(playbook):
             AnsibleCMD.__log.debug('Wrong playbook: %s' % playbook)
 
-        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10', *args]
+        command = ['ansible-playbook', '-i', inventory, playbook, '-a', '-f', '10'] + args
         process = LocalExec(command)
         process.run_and_wait()
         return process
@@ -83,17 +82,25 @@ class AnsibleExecution(Execution):
         :return:
         """
         AnsibleCMD.__log.info('Pinging node %s..' % self.hostname)
-
-        command = ['ansible', self.hostname, '-m', 'ping']
-        process = LocalExec(command)
-        process.run_and_wait()
-        self.ansible_cmd.cli_cmd(host=self.hostname, module='ping', args='data=pong')
-
-        # Logs
-        result = 'passed' if process.get_ecode() == 0 else 'failed'
+        ping = self.ansible_cmd.cli_cmd(host=self.hostname, module='ping', args='data=pong')
+        ecode = ping.get_ecode()
+        result = 'passed' if ecode == 0 else 'failed'
         AnsibleExecution.__log.info('Ping for node %s %s.' % (self.hostname, result))
 
-        return True if process.get_ecode() == 0 else False
+        return True if ecode == 0 else False
+
+    def module(self, module: str, args: []):
+        """
+        Run ansible module on node
+        :param module:
+        :param args:
+        :return:
+        """
+        AnsibleExecution.__log.info('Run module %s to node %s..' % (module, self.hostname))
+        process = self.ansible_cmd.cli_cmd(host=self.hostname, module=module, args=args)
+
+        # Logs
+        return process
 
 
 @logged
