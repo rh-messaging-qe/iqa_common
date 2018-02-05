@@ -1,7 +1,11 @@
-# coding=utf-8
 from autologging import logged, traced
-from .nodes.node import Node
-from .nodes.executions.ansible import AnsibleCMD
+
+import amom.router
+import amom.broker
+import amom.client
+
+from components.nodes.node import Node
+from components.nodes.executions.ansible import AnsibleCMD
 
 
 @logged
@@ -26,7 +30,7 @@ class IQAInstance:
 
         :param hostname
         :param ip
-        :return:
+        :return: Node()
         """
         node = Node(hostname=hostname, ip=ip, ansible=self.ansible)
         self.nodes.append(node)
@@ -40,6 +44,11 @@ class IQAInstance:
 
         :param node
         :param component
+        :return: component()
+        """
+        new_component = node.new_component(component)
+        self.components.append(new_component)
+        return new_component
         :return:
         """
         component = component(node=node)
