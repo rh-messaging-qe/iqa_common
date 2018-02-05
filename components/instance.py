@@ -49,8 +49,27 @@ class IQAInstance:
         new_component = node.new_component(component)
         self.components.append(new_component)
         return new_component
+
+    def get_brokers(self):
+        """
+        Get all broker instances
         :return:
         """
-        component = component(node=node)
-        self.components.append(node)
-        return component
+        return [method_name for method_name in self.components
+                if issubclass(method_name, amom.router.Router)]
+
+    def get_clients(self):
+        """
+        Get all client instances
+        :return:
+        """
+        return [method_name for method_name in self.components
+                if issubclass(method_name, amom.client.Client)]
+
+    def get_routers(self):
+        """
+        Get all router instances
+        :return:
+        """
+        return [method_name for method_name in self.get_components
+                if issubclass(method_name, amom.router.Router)]
