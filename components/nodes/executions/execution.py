@@ -22,7 +22,13 @@ class Execution:
         Execute command on node
         """
         Execution.__log.info('Executing command on node %s..' % self.hostname)
+        if isinstance(command, str):
+            command = [command]
         return self._execute(command)
 
     def _execute(self, command):
-        print("Execution method '%s' is not supported!" % inspect.stack()[1][3])
+        Execution.__log.debug(
+            "Execution method '%s' on node %s is not supported!" %
+            (inspect.stack()[1][3], self.hostname)
+        )
+        raise NotImplementedError
