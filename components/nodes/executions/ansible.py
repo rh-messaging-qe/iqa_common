@@ -20,11 +20,12 @@ class AnsibleCMD:
         self.inventory = inventory
 
     @staticmethod
-    def cli_cmd(host, module, args):
+    def cli_cmd(host, inventory, module, args):
         """
         Execute command on node by using Ansible.
         :param args:
         :param host:
+        :param inventory
         :param module:
         :param args:
         :return:
@@ -64,31 +65,6 @@ class AnsibleExecution(Execution):
         Execution.__init__(self, hostname=hostname)
         self.ansible_cmd = ansible_cmd
 
-    def _execute(self, command):
-        """
-        Execute command on node by using Ansible command module.
-        :param command:
-        :return:
-        """
-        if isinstance(command, str):
-            command = [command]
-
-        process = self.ansible_cmd.cli_cmd(host=self.hostname, module='shell', args=command)
-        return process
-
-    def ping(self):
-        """
-        Run Ansible ping module for ping node
-        :return:
-        """
-        AnsibleCMD.__log.info('Pinging node %s..' % self.hostname)
-        ping = self.ansible_cmd.cli_cmd(host=self.hostname, module='ping', args='data=pong')
-        ecode = ping.get_ecode()
-        result = 'passed' if ecode == 0 else 'failed'
-        AnsibleExecution.__log.info('Ping for node %s %s.' % (self.hostname, result))
-
-        return True if ecode == 0 else False
-
     def module(self, module: str, args: []):
         """
         Run ansible module on node
@@ -97,10 +73,41 @@ class AnsibleExecution(Execution):
         :return:
         """
         AnsibleExecution.__log.info('Run module %s to node %s..' % (module, self.hostname))
-        process = self.ansible_cmd.cli_cmd(host=self.hostname, module=module, args=args)
-
-        # Logs
+        process = self.ansible_cmd.cli_cmd(
+            host=self.hostname,
+            inventory=self.ansible_cmd.inventory,
+            module=module,
+            args=args
+        )
         return process
+
+    def _execute(self, command):
+        """
+        Execute command on node by using Ansible command module.
+        :param command:
+        :return:
+        """
+        process = self.module(
+            module='shell',
+            args=command
+        )
+        return process
+
+    def ping(self):
+        """
+        Run Ansible ping module for ping node
+        :return:
+        """
+        AnsibleCMD.__log.info('Pinging node %s..' % self.hostname)
+        ping = self.module(
+            module='ping',
+            args='data=pong'
+        )
+        ecode = ping.get_ecode()
+        result = 'passed' if ecode == 0 else 'failed'
+        AnsibleExecution.__log.info('Ping for node %s %s.' % (self.hostname, result))
+
+        return True if ecode == 0 else False
 
 
 @logged
