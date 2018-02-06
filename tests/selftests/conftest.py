@@ -55,6 +55,7 @@ def pytest_addoption(parser):
 def pytest_configure(config):
     """into iqa instance"""
     iqa_instance.inventory = config.getvalue('inventory')
+    iqa_instance.inventory = config.option.inventory
 
 
 ##############################
