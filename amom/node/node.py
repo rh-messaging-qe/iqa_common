@@ -15,14 +15,20 @@ class Node:
 
     def execute(self, command):
         """
-        Execute command on remote node
-        :param command: list
+        Execute command on node
+        :param command:
         :return:
         """
-        return self._not_supported()
+        self._not_supported()
+        raise NotImplementedError
 
     def ping(self):
-        return self._not_supported()
+        """
+        Ping node
+        :return:
+        """
+        self._not_supported()
+        raise NotImplementedError
 
     @staticmethod
     def _not_supported():
