@@ -32,7 +32,6 @@ def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None, d
             if platform.system() == "Windows":
                 import_error_msg.append("Colorlog without colorama used, expect escape codes, please install colorama")
 
-
     filename = config_utils.substitute_main_filename(filename) or sys.stdout
     level = level or logging.DEBUG
     fmt = fmt or formats.fmt_console

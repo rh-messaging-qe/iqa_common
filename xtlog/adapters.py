@@ -15,6 +15,7 @@ class XTLogAdapter(logging.LoggerAdapter, object):
 class AuxAdapter(XTLogAdapter):
     """ Logging adapter that is able to supply additional info to messages
     """
+
     def process(self, msg, kwargs):
         """ Adding dictionary form data in extra field to the end of log message
         @param msg: log message
@@ -23,13 +24,14 @@ class AuxAdapter(XTLogAdapter):
         """
         tmp = []
         for k, v in self.extra.iteritems():
-           tmp.append("%s=%s" % (k,v,))
+            tmp.append("%s=%s" % (k, v,))
         return "%s extra={%s}" % (msg, ", ".join(tmp)), kwargs
 
 
 class RemoteExecAdapter(XTLogAdapter):
     """ Remote execution logger adapter, that add IP address to log messages
     """
+
     def __init__(self, logger, extra):
         """ overridden L{logging.LoggerAdapter} init, this will try to efficiently extra 'host' from extras
         @type logger: L{logging.Logger}
@@ -54,6 +56,7 @@ class RemoteExecAdapter(XTLogAdapter):
 class GeneralContextAdapter(XTLogAdapter):
     """ General purpose context adapter, prepending context to a log message
     """
+
     def process(self, msg, kwargs):
         """ Adding specified 'context' at the beginning of log message
 

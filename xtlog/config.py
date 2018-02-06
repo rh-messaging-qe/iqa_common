@@ -74,6 +74,6 @@ def config_all_default():
     """
     config_by_dictionary(xtlog_config_default)
 
+
 # setting root logger global log level to max, particular handlers will limit their log levels accordingly
 logging.getLogger().setLevel(logging.DEBUG)
-

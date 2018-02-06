@@ -7,6 +7,7 @@ def init():
     """
     pass
 
+
 # creating DOC log level
 logging.TEST_DOC = 15
 
@@ -17,17 +18,17 @@ logging.TEST_SKIP = 26
 logging.TEST = 21  # virtual log level for enabling testing logging up to TEST level
 
 name_map = {
-  'critical': logging.CRITICAL,
-  'error': logging.ERROR,
-  'warning': logging.WARNING,
-  'pass': logging.TEST_PASS,
-  'fail': logging.TEST_FAIL,
-  'skip': logging.TEST_SKIP,
-  'test': logging.TEST,
-  'info': logging.INFO,
-  'testdoc': logging.TEST_DOC,
-  'debug': logging.DEBUG,
-  'notset': logging.NOTSET,
+    'critical': logging.CRITICAL,
+    'error': logging.ERROR,
+    'warning': logging.WARNING,
+    'pass': logging.TEST_PASS,
+    'fail': logging.TEST_FAIL,
+    'skip': logging.TEST_SKIP,
+    'test': logging.TEST,
+    'info': logging.INFO,
+    'testdoc': logging.TEST_DOC,
+    'debug': logging.DEBUG,
+    'notset': logging.NOTSET,
 }
 
 # adding level mappings
