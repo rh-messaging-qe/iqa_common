@@ -77,13 +77,6 @@ class Sender(Client, amom.client.Sender):
         ('conn_web_socket', '--conn-web-socket %s'),
         ('conn_max_frame_size', '--conn-max-frame-size %s'),
 
-        # Other options
-        ('transport', None),
-        ('host', None),
-        ('port', None),
-        ('username', None),
-        ('password', None),
-        ('address', None)
     ])
 
     def __init__(self, node: Node):

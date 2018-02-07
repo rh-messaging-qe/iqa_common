@@ -80,13 +80,6 @@ class Sender(Client, amom.client.Sender):
         ('reactor_peer_close_is_error', '--reactor-peer-close-is-error'),
         ('reactor_auto_settle_off', '--reactor-auto-settle-off'),
 
-        # Other
-        ('transport', None),
-        ('host', None),
-        ('port', None),
-        ('username', None),
-        ('password', None),
-        ('address', None)
     ])
 
 

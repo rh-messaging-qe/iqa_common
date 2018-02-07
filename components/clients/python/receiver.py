@@ -75,13 +75,6 @@ class Receiver(Client, amom.client.Receiver):
         ('reactor_peer_close_is_error', '--reactor-peer-close-is-error'),
         ('reactor_auto_settle_off', '--reactor-auto-settle-off'),
 
-        # Other
-        ('transport', None),
-        ('host', None),
-        ('port', None),
-        ('username', None),
-        ('password', None),
-        ('address', None)
     ])
 
     def __init__(self, node: Node):

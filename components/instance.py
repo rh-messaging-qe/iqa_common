@@ -36,7 +36,7 @@ class IQAInstance:
         self.nodes.append(node)
         return node
 
-    def new_component(self, node: Node, component):
+    def new_component(self, node: Node, component, *args):
         """
         Create new node under iQA instance
 

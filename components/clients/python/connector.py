@@ -46,13 +46,6 @@ class Connector(Client, amom.client.Connector):
         # Connector options
         ('obj-ctrl', '--obj-ctrl %s'),
 
-        # Other
-        ('transport', None),
-        ('host', None),
-        ('port', None),
-        ('username', None),
-        ('password', None),
-        ('address', None)
     ])
 
     def __init__(self):
