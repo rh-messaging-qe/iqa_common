@@ -16,7 +16,7 @@ class Client:
 
     ###
 
-    def __init__(self):
+    def __init__(self, broker_url=None):
         self.logs = None  # @TODO
 
     @property
@@ -94,23 +94,4 @@ class ExternalClient(Client):
         :return:
         """
         self.node.execute(cmd)
-
-    def _build_sender_command(self):
-        """
-        Method for create command for execute based on client's available attributes.
-        :return: list with command attributes
-        """
-        attributes = filter(lambda a: a.startswith(self.attribute_prefix), dir(self))
-
-        command = self.cli_command
-
-        for item in attributes:
-            value = self.__getattribute__(item)
-            if value is not None:
-                if isinstance(value, bool):
-                    command.append(self.cli_params_transformation[item[3:]])
-                else:
-                    command.append(self.cli_params_transformation[item[3:]] % value)
-
-        return command
 
