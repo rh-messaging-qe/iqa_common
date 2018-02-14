@@ -1,23 +1,20 @@
-from inspect import stack
-from odict import odict
+"""
+    # TODO jstejska: Package description
+"""
 
-from ..node import Node
+from inspect import stack
 
 
 class Client:
-    """
-    Abstract class for every messaging client
-    """
+    """Abstract class for every messaging client."""
 
     # Required variables
     supported_protocols = []
     name = ''
     version = ''
 
-    ###
-
-    def __init__(self, broker_url=None):
-        self.logs = None  # @TODO
+    def __init__(self):
+        self.logs = None
 
     @property
     def get_supported_protocols(self):
@@ -34,64 +31,18 @@ class Client:
     @staticmethod
     def _not_supported():
         print("Function %s is not supported for this client." % stack()[1][3])
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class NativeClient(Client):
+    """Abstract class for Native client."""
     def __init__(self):
-        Client.__init__(self)
+        super(NativeClient, self).__init__()
 
 
 class LocalhostClient(Client):
+    """Abstract class for Localhost client."""
     def __init__(self):
-        Client.__init__(self)
+        super(LocalhostClient, self).__init__()
 
-
-class ExternalClient(Client):
-    """
-    External CLI based clients
-
-    @TODO move to components
-    """
-
-    # attribute-argument mapping dictionary
-    cli_params_transformation = odict()
-    attribute_prefix = "_c_"
-
-    def __init__(self, node: Node):
-        Client.__init__(self)
-        self.node = node
-        self._init_attributes(self)
-
-    @staticmethod
-    def _init_attributes(self):
-        """
-        Method for init class attributes based on clients attributes.
-        :return:
-        """
-        for name, value in self.cli_params_transformation.items():
-            name = self.attribute_prefix + name
-            self.__setattr__(name, None)
-
-    def _set_attr_values(self, **kwargs):
-        """
-        Method for set class attributes based on clients attributes.
-        :param kwargs: dict of attributes with values
-        :return:
-        """
-        for name, value in kwargs:
-            name = self.attribute_prefix + name
-            if hasattr(self, name):
-                self.__setattr__(name, value)
-
-    def _run(self):
-        self._not_supported()
-
-    def _execute(self, cmd):
-        """
-        Method for execute client's command.
-        :param cmd: command
-        :return:
-        """
-        self.node.execute(cmd)
 

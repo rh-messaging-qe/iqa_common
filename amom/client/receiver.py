@@ -1,12 +1,15 @@
+"""
+    # TODO jstejska: Package description
+"""
+
 from .client import Client
 
 
 class Receiver(Client):
-    """
-    Abstract class of client's receivers.
-    """
+    """Abstract class of client's receivers."""
+
     def __init__(self, message_buffer=True):
-        Client.__init__(self)
+        super(Receiver, self).__init__()
         # Sender settings
         self.message_buffer = message_buffer
 
@@ -15,16 +18,18 @@ class Receiver(Client):
 
     @property
     def last_message(self):
-        """
-        Method for pickup last received message.
-        :return:
+        """Method for pickup last received message.
+
+        :return: # TODO jstejska: description
+        :rtype: # TODO jstejska: type
         """
         return self.messages[-1] if self.messages else None
 
     def receive_messages(self, message=None):
-        """
-        Method for receive message.
-        :param message: ???
+        """Method for receive message.
+
+        :param message: # TODO jstejska: description
+        :type message: # TODO jstejska: type
         """
         if self.message_buffer:
             self.messages.append(message)
@@ -35,9 +40,10 @@ class Receiver(Client):
         self.received_messages += 1
 
     def start_receive(self):
-        """
-        Start receive messages
-        :return:
+        """Start receive messages.
+
+        :return: # TODO jstejska: description
+        :rtype: # TODO jstejska: type
         """
         # if self.message_buffer:
         #     while True:
