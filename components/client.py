@@ -1,3 +1,7 @@
+"""
+    # TODO jstejska: Package description
+"""
+
 # -*- coding: utf-8 -*-
 
 import threading
@@ -16,12 +20,12 @@ class Timeout(object):
 
 class Client(MessagingHandler):
     # TODO error handling is not incorporated, this is just a raw idea
-    """
-    Client represents an entity in the framework capable of manipulation with messages (sending, receiving, parsing ...)
+    """Client represents an entity in the framework capable of manipulation with messages (sending, receiving, parsing ...)
     """
 
     def __init__(self, blocking=False):
-        """
+        """ # TODO jstejska: Description
+        
         :param blocking: if clients blocks program execution - runs on foreground
         :type blocking: bool
         """
@@ -37,16 +41,20 @@ class Client(MessagingHandler):
 
     @property
     def msg_cnt(self):
-        """
+        """ # TODO jstejska: Description
+        
         :return: count of available messages
         :rtype: int
         """
         return len(self.message_pool)
 
     def run(self):
-        """
-        Starts clients. Client runs on foreground/background according to its configuration during initialization
+        """Starts clients. 
+        
+        Client runs on foreground/background according to its configuration during initialization
+        
         :return: None
+        :rtype: # TODO jstejska: type
         """
         self.thread = threading.Thread(target=self.container.run)  # assing a thread
         if self._blocking:
@@ -59,12 +67,11 @@ class Client(MessagingHandler):
 
 
 class Sender(Client):
-    """
-    Most basic example clients capable of sending messages
-    """
+    """Most basic example clients capable of sending messages."""
 
     def __init__(self, hostname="localhost", address="test_queue", count=1, messages=None, blocking=False):
-        """
+        """ # TODO jstejska: Description
+
         :param hostname: hostname of the physical node with routers/brokers/receiver
         :type hostname: str
         :param address: address where to send (queue name, topic name)
@@ -104,13 +111,16 @@ class Sender(Client):
             if self.counter == self.max_messages:
                 event.connection.close()
 
-    def on_connection_closed(self, event):
+    @staticmethod
+    def on_connection_closed(event):
         event.container.stop()
 
 
 class Receiver(Client):
     def __init__(self, hostname="localhost", address="test_queue", expected=1, blocking=True):
-        """
+        """ # TODO jstejska: Description
+
+
         :param hostname: hostname of the physical node with routers/brokers/receiver
         :type hostname: str
         :param address: address where to send (queue name, topic name)
@@ -128,6 +138,7 @@ class Receiver(Client):
         self.receiver = None
         self.address = address
         self.container = Container(self)
+        self.timer = None
 
     def on_reactor_init(self, event):  # called when event loop - the reactor - starts
         super(Receiver, self).on_reactor_init(event)
