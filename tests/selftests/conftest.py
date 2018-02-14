@@ -1,7 +1,8 @@
 import pytest
 
 # from components import clients, routers, brokers
-from components.clients import nodejs, core, python
+from components.clients.external import nodejs, python
+from components.clients import core
 from components.brokers.artemis import Artemis
 from components.routers.dispatch import Dispatch
 
