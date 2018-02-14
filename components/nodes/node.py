@@ -1,3 +1,7 @@
+"""
+    # TODO jstejska: Package description
+"""
+
 from autologging import logged, traced
 
 import amom.node
@@ -9,9 +13,7 @@ from .executions import Executor
 @logged
 @traced
 class Node(amom.node.Node):
-    """
-    Node component
-    """
+    """Node component."""
 
     def __init__(self, hostname, ansible: AnsibleCMD, ip=None, execution=None):
         amom.node.Node.__init__(self, hostname=hostname)
@@ -43,11 +45,13 @@ class Node(amom.node.Node):
         return process.get_stdout()
 
     def new_component(self, component):
-        """
-        Adding component to under node
+        """Adding component to under node.
 
-        :param component
+        :param component:
+        :type component:
+
         :return: Component object
+        :rtype:
         """
         component = component(node=self)
         self.components.append(component)

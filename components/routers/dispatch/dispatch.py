@@ -12,6 +12,7 @@ class Dispatch(Router):
     """
     Qpid Dispatch component
     """
+
     def __init__(self, node: Node):
         Router.__init__(self, node=node)
         self.qdmanage = QDManage()
