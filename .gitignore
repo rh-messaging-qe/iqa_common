@@ -1,7 +1,7 @@
 .pyenv*
 logs
 .idea
-*.pyc
+*.py[co]
 *.idea
 *venv*
 *.log
