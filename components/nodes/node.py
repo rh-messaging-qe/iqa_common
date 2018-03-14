@@ -5,6 +5,9 @@
 from autologging import logged, traced
 
 import amom.node
+from amom.client import Client
+from amom.broker import Broker
+from amom.router import Router
 
 from .executions import AnsibleCMD, AnsibleExecution
 from .executions import Executor
@@ -57,37 +60,31 @@ class Node(amom.node.Node):
         self.components.append(component)
         return component
 
-    # def get_components(self):
-    #     """
-    #     Get all instances on this node
-    #     @TODO complete this method for usability, it's just idea now
-    #     :return: list of objects which use this Node object
-    #     """
-    #     return [method_name for method_name in dir(self)
-    #             if callable(getattr(self, method_name))]
-    #
-    # def get_brokers(self):
-    #     """
-    #     Get all broker instances on this node
-    #     :return:
-    #     """
-    #     return [method_name for method_name in self.get_components()
-    #             if callable(getattr(self, method_name))]
-    #
-    # def get_clients(self):
-    #     """
-    #     Get all client instances on this node
-    #     @TODO
-    #     :return:
-    #     """
-    #     return [method_name for method_name in self.get_components()
-    #             if callable(getattr(self, method_name))]
-    #
-    # def get_routers(self):
-    #     """
-    #     Get all router instances on this node
-    #     @TODO
-    #     :return:
-    #     """
-    #     return [method_name for method_name in self.get_components()
-    #             if callable(getattr(self, method_name))]
+    @property
+    def get_brokers(self):
+        """
+        Get all broker instances on this node
+        :return:
+        """
+        return [component for component in self.components
+                if issubclass(component, Broker)]
+
+    @property
+    def get_clients(self):
+        """
+        Get all client instances on this node
+        @TODO
+        :return:
+        """
+        return [component for component in self.components
+                if issubclass(component, Client)]
+
+    @property
+    def get_routers(self):
+        """
+        Get all router instances on this node
+        @TODO
+        :return:
+        """
+        return [component for component in self.components
+                if issubclass(component, Router)]
