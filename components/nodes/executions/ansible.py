@@ -1,7 +1,3 @@
-"""
-    # TODO jstejska: Package description
-"""
-
 from autologging import logged, traced
 
 import os
@@ -13,19 +9,21 @@ from .local_exec import LocalExec
 @logged
 @traced
 class AnsibleCMD:
-    """Ansible program abstraction."""
+    """
+    Ansible program abstraction
+    """
 
     def __init__(self, inventory):
-        """ # TODO jstejska: Descritpion
-
+        """
         :param inventory:
         :type inventory:
         """
         self.inventory = inventory
 
     @staticmethod
-    def cli_cmd(host, inventory, module, args):
-        """Execute command on node by using Ansible.
+    def cli_cmd(host, module, args):
+        """
+        Execute command on node by using Ansible.
 
         :param host:
         :type host:
@@ -40,6 +38,7 @@ class AnsibleCMD:
         if len(args) > 1:
             args = [' '.join(args)]
 
+        #command = ['ansible', host, '-i', inventory, '-m', module, '-a'] + args
         command = ['ansible', host, '-m', module, '-a'] + args
         process = LocalExec(command)
         process.run_and_wait()
@@ -47,7 +46,8 @@ class AnsibleCMD:
 
     @staticmethod
     def cli_playbook(playbook, inventory, args):
-        """Execute command on node by using Ansible.
+        """
+        Execute command on node by using Ansible.
 
         :param playbook:
         :type playbook:
@@ -72,14 +72,17 @@ class AnsibleCMD:
 @logged
 @traced
 class AnsibleExecution(Execution):
-    """Ansible CLI Ad-Hoc Commands."""
+    """
+    Ansible CLI Ad-Hoc Commands
+    """
 
     def __init__(self, hostname, ansible_cmd: AnsibleCMD):
         Execution.__init__(self, hostname=hostname)
         self.ansible_cmd = ansible_cmd
 
     def module(self, module: str, args: []):
-        """Run ansible module on node.
+        """
+        Run ansible module on node.
 
         :param module:
         :type module:
@@ -98,7 +101,8 @@ class AnsibleExecution(Execution):
         return process
 
     def _execute(self, command):
-        """Execute command on node by using Ansible command module.
+        """
+        Execute command on node by using Ansible command module.
 
         :param command:
         :type command:
@@ -113,7 +117,8 @@ class AnsibleExecution(Execution):
         return process
 
     def ping(self):
-        """Run Ansible ping module for ping node.
+        """
+        Run Ansible ping module for ping node.
 
         :return:
         :rtype:
@@ -133,7 +138,9 @@ class AnsibleExecution(Execution):
 @logged
 @traced
 class AnsibleAPI(Execution):
-    """@TODO Ansible API Usage """
+    """
+    @TODO Ansible API Usage
+    """
 
     def __init__(self, hostname):
         Execution.__init__(self, hostname=hostname)
