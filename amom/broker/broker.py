@@ -1,4 +1,5 @@
-from amom.node import Node
+from ..node import Node
+from ..queue import Queues
 
 
 class Broker:
@@ -10,4 +11,4 @@ class Broker:
 
     def __init__(self, node: Node):
         self.node = node
-        self.logs = None  # @TODO
+        self.queues = Queues()
