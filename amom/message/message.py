@@ -1,13 +1,8 @@
-from .header import Header
-from .delivery_annotations import DeliveryAnnotations
-from .message_annotations import MessageAnnotations
-from .properties import Properties
-from .application_properties import ApplicationProperties
-from .application_data import ApplicationData
-from .footer import Footer
+from . import Header, DeliveryAnnotations, MessageAnnotations,\
+    Properties, ApplicationProperties, ApplicationData, Footer
 
 
-class Message(object):
+class Message:
     """
     @TODO Create just abstract message class
 
