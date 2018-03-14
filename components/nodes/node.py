@@ -59,9 +59,9 @@ class Node(amom.node.Node):
         component = component(node=self)
         self.components.append(component)
         return component
-
+    
     @property
-    def get_brokers(self):
+    def brokers(self):
         """
         Get all broker instances on this node
         :return:
@@ -70,7 +70,7 @@ class Node(amom.node.Node):
                 if issubclass(component, Broker)]
 
     @property
-    def get_clients(self):
+    def clients(self):
         """
         Get all client instances on this node
         @TODO
@@ -80,7 +80,7 @@ class Node(amom.node.Node):
                 if issubclass(component, Client)]
 
     @property
-    def get_routers(self):
+    def routers(self):
         """
         Get all router instances on this node
         @TODO
