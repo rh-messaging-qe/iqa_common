@@ -55,7 +55,6 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     """into iqa instance"""
-    iqa_instance.inventory = config.getvalue('inventory')
     iqa_instance.inventory = config.option.inventory
 
 
@@ -94,8 +93,8 @@ def pytest_generate_tests(metafunc):
 ########################
 
 broker_node = iqa_instance.new_node(hostname='ic01')
-router_node = iqa_instance.new_node(hostname='ic02')
-client_node = iqa_instance.new_node(hostname='ic03')
+router_node = iqa_instance.new_node(hostname='ic01')
+client_node = iqa_instance.new_node(hostname='ic01')
 
 core_sender = core.Sender()
 core_receiver = core.Receiver()
@@ -169,7 +168,6 @@ def router(request):
         return dispatch
     elif 'interconnect' in request.param:
         return dispatch
-
 
 
 @pytest.fixture()
