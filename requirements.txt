@@ -1,6 +1,6 @@
+colorama
+colorlog
 autologging
 pytest
 pytest-logger
-colorlog
-odict
-optconstruct
+odictoptconstruct
