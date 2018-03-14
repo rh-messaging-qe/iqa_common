@@ -1,6 +1,3 @@
-from inspect import stack
-
-
 class Node:
     """
     Represents virtual destination/service aka node.
@@ -19,7 +16,6 @@ class Node:
         :param command:
         :return:
         """
-        self._not_supported()
         raise NotImplementedError
 
     def ping(self):
@@ -27,10 +23,6 @@ class Node:
         Ping node
         :return:
         """
-        self._not_supported()
         raise NotImplementedError
 
-    @staticmethod
-    def _not_supported():
-        print("Function %s is not supported for this node." % stack()[1][3])
 
