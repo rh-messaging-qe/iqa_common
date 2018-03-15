@@ -3,4 +3,5 @@ colorlog
 autologging
 pytest
 pytest-logger
-odictoptconstruct
+odict
+optconstruct
