@@ -94,7 +94,7 @@ class AnsibleExecution(Execution):
         AnsibleExecution.__log.info('Run module %s to node %s..' % (module, self.hostname))
         process = self.ansible_cmd.cli_cmd(
             host=self.hostname,
-            inventory=self.ansible_cmd.inventory,
+            #inventory=self.ansible_cmd.inventory,
             module=module,
             args=args
         )
