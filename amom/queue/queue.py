@@ -2,7 +2,7 @@
 @TODO: dlenoch: Publish-Subscribe | queue routing type (Anycast, Multicast)
 @TODO: dlenoch: Point-to-Point | More queues on one Address
 """
-from ..address import Address
+from amom.address import Address
 
 
 class QueueAnycast:

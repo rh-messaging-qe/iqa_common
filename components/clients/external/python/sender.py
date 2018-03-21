@@ -91,7 +91,6 @@ class Sender(Client, amom.client.Sender):
 
     ]
 
-
     def __init__(self, node: Node):
         """Init of Python sender."""
 

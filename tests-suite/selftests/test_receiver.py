@@ -1,7 +1,4 @@
-from pip._vendor.distlib._backport.shutil import ReadError
-
 from amom.client import Receiver
-from components.nodes.node import Node
 
 
 def test_isinstance(receiver: Receiver):

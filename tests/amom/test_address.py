@@ -1,9 +1,7 @@
 import pytest
 
 from amom.address.address import Address
-from amom.address import Anycast
-from amom.address import Multicast
-from amom.address import Mixed
+from amom.address import Anycast, Multicast, Mixed
 
 
 class TestAddress:
