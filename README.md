@@ -1,4 +1,4 @@
-# iQA Test suite
+# iQA Test suites
 ## Description
 iQA test suite is based on py.test runner and it's designed for testing messaging services.
 
@@ -41,7 +41,7 @@ pip install -r requirements.txt
 
 ### Run self tests
 ```
-./venv/bin/py.test tests/selftests \
+./venv/bin/py.test tests-suite/selftests \
 --sender native --sender nodejs --sender python \
 --receiver native --receiver nodejs --receiver python \
 --router dispatch --router interconnect \
@@ -50,3 +50,23 @@ pip install -r requirements.txt
 --inventory /home/enkeys/ansible/hosts \
 -s --verbose
 ```
+#### Sender []
+- native (core), nodejs, python 
+
+#### Receiver []
+- native (core), nodejs, python
+
+#### Broker []
+- artemis, amq7, amq6
+
+#### TLS []
+- tls10, tls11 tls12, tls13
+
+#### Inventory 
+- Path to Ansible inventory with hosts
+
+# TODO
+- inventory hosts
+- topology instance
+- xtlog
+    - pytest way -> implement pytest-logging/pytest-logger
