@@ -1,5 +1,5 @@
 from .address import Address
-from ..route import Anycast as AnycastRoute
+from ..route.anycast import Anycast as AnycastRoute
 
 
 class Anycast(Address, AnycastRoute):

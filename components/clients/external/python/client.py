@@ -3,9 +3,9 @@
 """
 
 from autologging import logged, traced
-from amom.node import Node
+from components.node import Node
 
-import components.network.aplication.messaging as protocols
+import components.protocols as protocols
 from components.clients.external.externalclient import ExternalClient
 
 

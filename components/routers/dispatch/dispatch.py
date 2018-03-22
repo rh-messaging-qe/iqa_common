@@ -1,10 +1,10 @@
 from autologging import logged, traced
 
-from amom.router import Router
-from amom.node import Node
+from components.routers import Router
+from components.node.service import Service
+from components.node import Node
 
 from .management import QDManage, QDStat
-from ...service import Service
 
 
 @logged

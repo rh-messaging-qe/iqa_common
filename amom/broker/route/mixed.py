@@ -1,5 +1,5 @@
-from .Anycast import Anycast
-from .Multicast import Multicast
+from .anycast import Anycast
+from .multicast import Multicast
 
 
 class Mixed(Anycast, Multicast):

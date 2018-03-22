@@ -6,9 +6,12 @@ from components.clients import core
 from components.brokers.artemis import Artemis
 from components.routers.dispatch import Dispatch
 
-from components.instance import IQAInstance
+from iqa_messaging.instance import IQAInstance
 
 
+############################
+# Global python namespace  #
+############################
 iqa_instance = IQAInstance()
 
 
@@ -16,13 +19,13 @@ def pytest_namespace():
     """
     Provide iqa_instance to pytest global namespace
     """
-    return {'iqa_instance': iqa_instance}
+    return {'iqa': iqa_instance}
 
 
 @pytest.fixture
 def iqa():
     """
-    IQA instance with accessible nodes, components
+    IQA instance with accessible node, components
     :return:
     """
     return pytest.iqa
@@ -55,7 +58,8 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     """into iqa instance"""
-    iqa_instance.inventory = config.option.inventory
+    pytest.iqa.inventory = config.option.inventory
+    # iqa_instance.inventory = config.option.inventory
 
 
 ##############################

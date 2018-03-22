@@ -1,8 +1,8 @@
-from amom.broker import Broker
-from ...nodes import Node
-from ...service import Service
+from ...brokers import Broker
+from ...node import Node
+from ...node.service import Service
 
-import components.network.aplication.messaging as protocols
+import components.protocols as protocols
 
 
 class ServiceArtemis(Service):

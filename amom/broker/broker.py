@@ -1,5 +1,4 @@
-from ..node import Node
-from ..queue import Queues
+from .queue import Queues
 
 
 class Broker:
@@ -9,6 +8,5 @@ class Broker:
     supported_protocols = []
     name = ''
 
-    def __init__(self, node: Node):
-        self.node = node
+    def __init__(self):
         self.queues = Queues()

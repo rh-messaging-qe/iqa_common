@@ -4,7 +4,7 @@
 
 from autologging import logged, traced
 
-from amom.node import Node
+from components.node import Node
 from .opt.brokerurl import BrokerURLPythonProton
 from optconstruct.types.prefixed import Prefixed
 from optconstruct.types import Toggle

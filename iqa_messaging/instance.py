@@ -8,8 +8,8 @@ import amom.router
 import amom.broker
 import amom.client
 
-from components.nodes.node import Node
-from components.nodes.executions.ansible import AnsibleCMD
+from components.node.node import Node
+from components.node.executions.ansible import AnsibleCMD
 
 
 @logged
@@ -17,7 +17,7 @@ from components.nodes.executions.ansible import AnsibleCMD
 class IQAInstance:
     """IQA helper class
 
-    Store variables, nodes and related things
+    Store variables, node and related things
     """
     def __init__(self, inventory=''):
         self.inventory = inventory
@@ -43,7 +43,7 @@ class IQAInstance:
         self.nodes.append(node)
         return node
 
-    def new_component(self, node: Node, component, *args):
+    def new_component(self, node: Node, component):
         """Create new node under iQA instance
 
         @TODO Pass inventory by true way for Ansible

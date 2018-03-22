@@ -1,6 +1,7 @@
 from autologging import logged, traced
-from amom.protocol.protocol import Protocol
+from amom.protocol import Protocol
 from components.network.transport import TCP
+
 
 @logged
 @traced

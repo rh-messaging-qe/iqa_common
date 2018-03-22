@@ -1,5 +1,5 @@
 from autologging import logged, traced
-from components.nodes.node import Node
+from components.node.node import Node
 
 
 @logged

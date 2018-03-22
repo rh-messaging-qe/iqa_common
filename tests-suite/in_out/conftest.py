@@ -6,7 +6,7 @@ import pytest
 
 
 import components.clients.core as core
-from components.nodes import Node
+from components.node import Node
 from components.brokers.artemis import Artemis
 from components.routers.dispatch.dispatch import Dispatch
 

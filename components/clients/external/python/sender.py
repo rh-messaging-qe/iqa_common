@@ -12,7 +12,7 @@ from optconstruct.types import Toggle
 
 import amom.client
 from .client import Client
-from components.nodes.node import Node
+from components.node.node import Node
 
 
 @logged

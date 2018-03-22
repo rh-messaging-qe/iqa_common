@@ -11,7 +11,7 @@ from optconstruct.types.prefixed import Prefixed
 from optconstruct.types import Toggle
 
 import amom.client
-from components.nodes.node import Node
+from components.node.node import Node
 from .client import Client
 
 

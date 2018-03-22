@@ -1,15 +1,14 @@
-from unittest import TestCase
 import pytest
 
-from amom.queue import Queue, Queues
-from amom.address import Address, Anycast, Multicast, Mixed
+from broker.queue import Queue, Queues
+from broker.address import Address
 
 address = Address(value='address_1')
 queue = Queue(name='Test_Queue_1', address=address)
 queues = Queues()
 
 
-class TestQueue(TestCase):
+class TestQueue:
 
     def test_queue_name(self):
         assert queue.name == 'Test_Queue_1'
@@ -18,7 +17,7 @@ class TestQueue(TestCase):
         assert queue.address == address
 
 
-class TestQueues(TestCase):
+class TestQueues:
     def test_add_queue(self):
         test_queues = queues
 

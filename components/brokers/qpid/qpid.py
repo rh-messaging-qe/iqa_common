@@ -1,6 +1,5 @@
-from amom.broker import Broker
-from amom.node import Node
-
+from components.brokers import Broker
+from components.node import Node
 import components.protocols as protocols
 
 

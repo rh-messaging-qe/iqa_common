@@ -2,11 +2,6 @@
     # TODO jstejska: Package description
 """
 
-from inspect import stack
-
-from ..node import Node
-from odict import odict
-
 
 class Client:
     """
@@ -32,8 +27,3 @@ class Client:
     @property
     def get_version(self):
         return self.version
-
-    @staticmethod
-    def _not_supported():
-        print("Function %s is not supported for this client." % stack()[1][3])
-        raise NotImplementedError

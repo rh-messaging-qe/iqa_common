@@ -4,7 +4,6 @@
 
 from autologging import logged, traced
 
-import amom.node
 from amom.client import Client
 from amom.broker import Broker
 from amom.router import Router
@@ -15,11 +14,11 @@ from .executions import Executor
 
 @logged
 @traced
-class Node(amom.node.Node):
+class Node:
     """Node component."""
 
     def __init__(self, hostname, ansible: AnsibleCMD, ip=None, execution=None):
-        amom.node.Node.__init__(self, hostname=hostname)
+        self.hostname = hostname
         Node.__log.info('Initialization of node %s..' % self.hostname)
         self.ansible = AnsibleExecution(hostname, ansible_cmd=ansible)
         self.executor = Executor(hostname)
