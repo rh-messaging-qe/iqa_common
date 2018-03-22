@@ -24,5 +24,5 @@ script:
 #    --tls tls10 --tls tls11 --tls tls12 --tls tls13 \
 #    --inventory /home/enkeys/ansible/hosts \
 #    -s --verbose s
-#  - py.test amom/units
-#  - py.test components/tests
+#  - py.test messaging_abstraction/units
+#  - py.test messaging_components/tests

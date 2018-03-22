@@ -1,5 +1,5 @@
-from components.brokers import Broker
-from components.node import Node
+from messaging_components.brokers import Broker
+from messaging_components.node import Node
 
 
 def test_isinstance(broker: Broker):

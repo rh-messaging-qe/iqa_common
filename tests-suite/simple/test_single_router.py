@@ -1,4 +1,4 @@
-from amom.message import Message
+from messaging_abstraction.message import Message
 from tests import get_func_name
 
 

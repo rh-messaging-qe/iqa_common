@@ -1,6 +1,6 @@
-from amom.client import Sender, Receiver
-from amom.broker import Broker
-from amom.router import Router
+from messaging_abstraction.client import Sender, Receiver
+from messaging_abstraction.broker import Broker
+from messaging_abstraction.router import Router
 
 
 def test_1(receiver: Receiver, sender: Sender, broker: Broker, router: Router, tls):

@@ -1,4 +1,4 @@
-from amom.client import Receiver
+from messaging_abstraction.client import Receiver
 
 
 def test_isinstance(receiver: Receiver):

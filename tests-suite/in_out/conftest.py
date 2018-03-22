@@ -5,10 +5,10 @@ import xtlog.adapters
 import pytest
 
 
-import components.clients.core as core
-from components.node import Node
-from components.brokers.artemis import Artemis
-from components.routers.dispatch.dispatch import Dispatch
+import messaging_components.clients.core as core
+from messaging_components.node import Node
+from messaging_components.brokers.artemis import Artemis
+from messaging_components.routers.dispatch.dispatch import Dispatch
 
 
 ########################

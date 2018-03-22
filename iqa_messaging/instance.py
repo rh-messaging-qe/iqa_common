@@ -4,12 +4,12 @@
 
 from autologging import logged, traced
 
-import amom.router
-import amom.broker
-import amom.client
+import messaging_abstraction.router
+import messaging_abstraction.broker
+import messaging_abstraction.client
 
-from components.node.node import Node
-from components.node.executions.ansible import AnsibleCMD
+from messaging_components.node.node import Node
+from messaging_components.node.executions.ansible import AnsibleCMD
 
 
 @logged
@@ -68,7 +68,7 @@ class IQAInstance:
         :rtype:
         """
         return [method_name for method_name in self.components
-                if issubclass(method_name, amom.router.Router)]
+                if issubclass(method_name, messaging_abstraction.router.Router)]
 
     def get_clients(self):
         """Get all client instances.
@@ -77,7 +77,7 @@ class IQAInstance:
         :rtype:
         """
         return [method_name for method_name in self.components
-                if issubclass(method_name, amom.client.Client)]
+                if issubclass(method_name, messaging_abstraction.client.Client)]
 
     def get_routers(self):
         """Get all router instances.
@@ -86,4 +86,4 @@ class IQAInstance:
         :rtype:
         """
         return [method_name for method_name in self.get_components
-                if issubclass(method_name, amom.router.Router)]
+                if issubclass(method_name, messaging_abstraction.router.Router)]

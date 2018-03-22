@@ -1,10 +1,10 @@
 import pytest
 
-# from components import clients, routers, brokers
-from components.clients.external import nodejs, python
-from components.clients import core
-from components.brokers.artemis import Artemis
-from components.routers.dispatch import Dispatch
+# from messaging_components import clients, routers, brokers
+from messaging_components.clients.external import nodejs, python
+from messaging_components.clients import core
+from messaging_components.brokers.artemis import Artemis
+from messaging_components.routers.dispatch import Dispatch
 
 from iqa_messaging.instance import IQAInstance
 
@@ -25,7 +25,7 @@ def pytest_namespace():
 @pytest.fixture
 def iqa():
     """
-    IQA instance with accessible node, components
+    IQA instance with accessible node, messaging_components
     :return:
     """
     return pytest.iqa
@@ -38,7 +38,7 @@ def pytest_addoption(parser):
     """
     Add messaging options to py.test runner
     """
-    components = parser.getgroup('iqa-components')
+    components = parser.getgroup('iqa-messaging_components')
 
     # Senders
     components.addoption("--sender", action="append", default=[], help="Define sender client [native, nodejs]")

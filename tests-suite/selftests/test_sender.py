@@ -1,4 +1,4 @@
-from amom.client import Sender
+from messaging_abstraction.client import Sender
 from odict import odict
 
 

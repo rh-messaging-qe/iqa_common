@@ -1,22 +1,22 @@
 import pytest
 
-from components.brokers.artemis import Artemis
+from messaging_components.brokers.artemis import Artemis
 from instance import IQAInstance
 
 iqa_instance = IQAInstance()
 
 
 # def pytest_addoption(parser):
-#     components = parser.getgroup('iqa-components')
+#     messaging_components = parser.getgroup('iqa-messaging_components')
 #
 #     # Broker master 1
-#     components.addoption("--master1", action="append", default=['master1'])
+#     messaging_components.addoption("--master1", action="append", default=['master1'])
 #
 #     # Broker slave 1
-#     components.addoption("--slave1", action="append", default=['slave1'])
+#     messaging_components.addoption("--slave1", action="append", default=['slave1'])
 #
 #     # Broker slave 2
-#     components.addoption("--slave2", action="append", default=['slave2'])
+#     messaging_components.addoption("--slave2", action="append", default=['slave2'])
 
 
 def pytest_configure(config):
