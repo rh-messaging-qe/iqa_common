@@ -1,7 +1,7 @@
 import pytest
 
-from broker.queue import Queue, Queues
-from broker.address import Address
+from messaging_abstraction.broker.queue import Queue, Queues
+from messaging_abstraction.broker.address import Address
 
 address = Address(value='address_1')
 queue = Queue(name='Test_Queue_1', address=address)

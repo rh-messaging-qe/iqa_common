@@ -1,0 +1,3 @@
+- src: https://github.com/chrismeyersfsu/provision_docker.git
+  scm: git
+  name: provision_docker

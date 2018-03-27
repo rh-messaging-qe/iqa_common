@@ -2,18 +2,30 @@ sudo: required
 
 language: python
 
-services:
-  - docker
-
 python:
   - "3.6"
+
+addons:
+  apt:
+    packages:
+      - python-pip
 
 cache:
   - pip
 
-install:
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
   - pip install https://github.com/ansible/ansible/archive/devel.tar.gz
+  - pip install docker-py
+  - pip install 'docker-compose'
+  - docker ps -a
+
+install:
   - pip install -r requirements.txt
+  - ansible-galaxy install -r tests/requirements.yml
 
 script:
 #  - py.test tests/selftests \
@@ -24,5 +36,6 @@ script:
 #    --tls tls10 --tls tls11 --tls tls12 --tls tls13 \
 #    --inventory /home/enkeys/ansible/hosts \
 #    -s --verbose s
-#  - py.test messaging_abstraction/units
-#  - py.test messaging_components/tests
+  - py.test messaging_abstraction/tests
+  - py.test messaging_components/tests
+  - cd tests && make
