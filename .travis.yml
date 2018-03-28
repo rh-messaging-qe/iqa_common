@@ -25,7 +25,7 @@ before_install:
 
 install:
   - pip install -r requirements.txt
-  - ansible-galaxy install -r tests/requirements.yml
+  - ansible-galaxy install -r tests/container-environment/requirements.yml
 
 script:
 #  - py.test tests/selftests \
@@ -38,4 +38,4 @@ script:
 #    -s --verbose s
   - py.test messaging_abstraction/tests
   - py.test messaging_components/tests
-  - cd tests && make
+  - cd tests && make all
