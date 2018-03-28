@@ -20,7 +20,7 @@ before_install:
   - sudo apt-get -y install docker-ce
   - pip install https://github.com/ansible/ansible/archive/devel.tar.gz
   - pip install docker-py
-  - pip install 'docker-compose'
+  - pip install docker-compose
   - docker ps -a
 
 install:

@@ -1,13 +1,13 @@
 localhost ansible_connection=local
 
 [clients]
-client_node_1 image="chrismeyers/centos7"
+client_node_1 image="centos/systemd"
 
 [brokers]
-broker_node_1 image="chrismeyers/centos7"
+broker_node_1 image="centos/systemd"
 
 [routers]
-router_node_1 image="chrismeyers/centos7"
+router_node_1 image="centos/systemd"
 
 [messaging:children]
 clients

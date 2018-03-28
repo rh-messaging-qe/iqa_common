@@ -3,6 +3,14 @@
   gather_facts: false
   roles:
     - role: provision_docker
-      provision_docker_privileged: true,
-      provision_docker_inventory_group: "{{ groups['messaging'] }}"
+      provision_docker_privileged: true
+      provision_docker_inventory_group: "{{ groups['clients'] }}"
+      provision_docker_use_docker_connection: true
+    - role: provision_docker
+      provision_docker_privileged: true
+      provision_docker_inventory_group: "{{ groups['brokers'] }}"
+      provision_docker_use_docker_connection: true
+    - role: provision_docker
+      provision_docker_privileged: true
+      provision_docker_inventory_group: "{{ groups['routers'] }}"
       provision_docker_use_docker_connection: true

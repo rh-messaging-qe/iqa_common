@@ -1,9 +1,3 @@
-- hosts: messaging
-  tasks:
-    - name: "Ping all containers"
-      ping:
-
-
 - hosts: brokers
   tasks:
     - name: "Ping broker containers"
