@@ -6,3 +6,5 @@ logs
 *venv*
 *.log
 *.cache*
+*.retry
+.pytest_cache
