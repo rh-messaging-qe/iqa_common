@@ -1,5 +1,7 @@
+.PHONY: deploy_container_env precheck_container_env clean
+
 INVENTORY = container-environment/inventory
-ANSIBLE_ARGS = -i ($INVENTORY) -vvv
+ANSIBLE_ARGS = -i $(INVENTORY) -vvv
 
 containers = client_node_1 broker_node_1 router_node_1
 clean = docker rm -f $(containers) || true
@@ -14,4 +16,4 @@ precheck_container_env:
 	ansible-playbook container-environment/precheck_container_env.yml $(ANSIBLE_ARGS)
 
 clean:
-    $(clean)
+	$(clean)
