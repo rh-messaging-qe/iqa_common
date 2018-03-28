@@ -14,18 +14,28 @@ cache:
   - pip
 
 before_install:
+  # Docker-CE Installation
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
-  - pip install https://github.com/ansible/ansible/archive/devel.tar.gz
-  - pip install docker-py
-  - pip install docker-compose
-  - docker ps -a
+
+  # Requirements for container environment
+  - pip install virtualenv
+  - virtualenv --python=/usr/bin/python2.7 .venv_container_env/
+  - .venv_container_env/bin/pip install https://github.com/ansible/ansible/archive/devel.tar.gz docker-py docker-compose
+  - .venv_container_env/bin/ansible-galaxy install -r tests/container-environment/requirements.yml
 
 install:
+  # Requirements for tests messaging_abstraction and messaging_components
+  - pip install -r messaging_abstraction/tests/requirements.txt -r messaging_components/tests/requirements.txt
+
+  # Test suite requirements
   - pip install -r requirements.txt
-  - ansible-galaxy install -r tests/container-environment/requirements.yml
+
+  # Setup test suite containers environment
+  - source .venv_container_env/bin/activate && cd tests && make all && deactivate
+  - docker ps -a
 
 script:
 #  - py.test tests/selftests \
@@ -36,6 +46,10 @@ script:
 #    --tls tls10 --tls tls11 --tls tls12 --tls tls13 \
 #    --inventory /home/enkeys/ansible/hosts \
 #    -s --verbose s
+
+  # Messaging Abstraction module tests
   - py.test messaging_abstraction/tests
+  # Messaging Components module tests
   - py.test messaging_components/tests
-  - cd tests && make all
+
+  # Test suite
