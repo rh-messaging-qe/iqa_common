@@ -2,7 +2,7 @@
     # TODO jstejska: Fill package info
 """
 
-from optconstruct.types.kwoption import KWOption
+from optconstruct.types import KWOption
 
 
 class MsgContentMap(KWOption):
