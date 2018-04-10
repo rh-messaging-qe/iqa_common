@@ -10,6 +10,19 @@ from optconstruct.types import BasicComposed
 class BrokerURLPythonProton(BasicComposed):
     """BrokerURL option parser for Proton-Python messaging client."""
 
+    composed_keys = {'host', 'port', 'address'}
+
+    def satisfied(self, data: dict):
+        """Check if client's option should be generated.
+
+        :param data: data with specified option's values
+        :type data: dict
+        :return: True or False
+        :rtype bool
+        """
+
+        return bool(set(data.keys()).intersection(self.composed_keys))
+
     def generate(self, data, client=None):
         """Generate option brokerURL option.
 
