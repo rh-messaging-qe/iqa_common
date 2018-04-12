@@ -10,20 +10,23 @@ addons:
     packages:
       - python-pip
 
+services:
+  - docker
+
 cache:
   - pip
 
 before_install:
   # Docker-CE Installation
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y install docker-ce
+  # - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  # - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  # - sudo apt-get update
+  # - sudo apt-get -y install docker-ce
 
   # Requirements for container environment
   - pip install virtualenv
   - virtualenv --python=/usr/bin/python2.7 .venv_container_env/
-  - .venv_container_env/bin/pip install https://github.com/ansible/ansible/archive/devel.tar.gz docker docker-compose
+  - .venv_container_env/bin/pip install ansible docker-py
   - .venv_container_env/bin/ansible-galaxy install -r tests/container-environment/requirements.yml
 
 install:
@@ -34,7 +37,7 @@ install:
   - pip install -r requirements.txt
 
   # Setup test suite containers environment
-  - source .venv_container_env/bin/activate && cd tests && make all && deactivate
+  # - source .venv_container_env/bin/activate && cd tests && make all && deactivate
   - docker ps -a
 
 script:
