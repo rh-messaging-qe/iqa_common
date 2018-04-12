@@ -5,6 +5,8 @@ from messaging_components.node.service import Service
 from messaging_components.node import Node
 
 from .management import QDManage, QDStat
+from .config import Config
+from .log import Log
 
 
 @logged
@@ -20,20 +22,36 @@ class Dispatch(Router):
         Router.__init__(self, node=node)
         self.qdmanage = QDManage()
         self.qdstat = QDStat()
-        self.config = None
-        self.service = Service(self, 'qdrouterd')
 
-        self._service = service
-        self.service = Service(node, self._service)
+        self.config = Config()
+        self.log = Log()
+
+        self.service = Service(node, service)
         self._version = None
 
     @staticmethod
-    def config_refresh():
+    def config_refresh_remote_to_testsuite():
         """
-        Read and save router config from remote
+        Syncing router config from remote to test_suite
         :return:
         """
         pass
+
+    @staticmethod
+    def config_dump():
+        """
+        Dump (remote) router configuration file and create Config()
+        :return:
+        """
+
+    def set_config(self, config_src, config_dst):
+        """
+        Set configuration from
+        :param config_src:
+        :param config_dst:
+        :return:
+        """
+
 
     @property
     def version(self):
