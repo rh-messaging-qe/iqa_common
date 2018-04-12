@@ -23,7 +23,7 @@ before_install:
   # Requirements for container environment
   - pip install virtualenv
   - virtualenv --python=/usr/bin/python2.7 .venv_container_env/
-  - .venv_container_env/bin/pip install https://github.com/ansible/ansible/archive/devel.tar.gz docker-py docker-compose
+  - .venv_container_env/bin/pip install https://github.com/ansible/ansible/archive/devel.tar.gz docker docker-compose
   - .venv_container_env/bin/ansible-galaxy install -r tests/container-environment/requirements.yml
 
 install:
