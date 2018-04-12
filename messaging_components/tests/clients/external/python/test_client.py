@@ -1,7 +1,5 @@
 import pytest
 
-from messaging_components.clients.external.python import Client
-
 
 class TestAddress:
 
