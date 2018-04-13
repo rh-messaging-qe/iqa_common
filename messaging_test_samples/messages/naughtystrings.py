@@ -1,4 +1,5 @@
 import os
+from messaging_abstraction.message.message import Message
 
 """Path to the file"""
 
@@ -52,3 +53,78 @@ def _naughty_strings_read(file):
         strings.insert(0, u"")
 
     return strings
+
+
+def messages_naughty_content():
+    """
+    Generate list of messages with naughty application data content
+    :return: list of messages with naughty application data content
+    """
+    msgs = []
+
+    for string in naughty_strings():
+        message = Message()
+        message.application_data = string
+        msgs.append(message)
+
+    return msgs
+
+
+def messages_naughty_base64_content():
+    """
+    Generate list of messages with naughty base64 application data content
+    :return: list of messages with naughty base64 application data content
+    """
+    msgs = []
+
+    for string in naughty_strings_base64():
+        message = Message()
+        message.application_data = string
+        msgs.append(message)
+
+    return msgs
+
+
+def messages_naughty_property_subject():
+    """
+    Generate list of messages with naughty property subject
+    :return: list of messages with naughty property subject
+    """
+    msgs = []
+
+    for string in naughty_strings():
+        message = Message()
+        message.properties.subject = string
+        msgs.append(message)
+
+    return msgs
+
+
+def messages_naughty_application_property_name():
+    """
+    Generate list of messages with naughty application property name
+    :return: list of messages with naughty application property name
+    """
+    msgs = []
+
+    for string in naughty_strings():
+        message = Message()
+        message.application_properties.add_property(name=string, value='Blank')
+        msgs.append(message)
+
+    return msgs
+
+
+def messages_naughty_application_property_value():
+    """
+    Generate list of messages with naughty application property value
+    :return: list of messages with naughty application property value
+    """
+    msgs = []
+
+    for string in naughty_strings():
+        message = Message()
+        message.application_properties.add_property(name='naughty', value=string)
+        msgs.append(message)
+
+    return msgs
