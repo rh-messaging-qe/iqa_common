@@ -18,16 +18,17 @@ cache:
 
 before_install:
   # Docker-CE Installation
-  # - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  # - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  # - sudo apt-get update
-  # - sudo apt-get -y install docker-ce
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
 
   # Requirements for container environment
-  - pip install virtualenv
-  - virtualenv --python=/usr/bin/python2.7 .venv_container_env/
-  - .venv_container_env/bin/pip install ansible docker-py
-  - .venv_container_env/bin/ansible-galaxy install -r tests/container-environment/requirements.yml
+  # - pip install virtualenv
+  # - virtualenv --python=/usr/bin/python2.7 .venv_container_env/
+  # - .venv_container_env/bin/pip install -r tests/requirements.txt
+  # - .venv_container_env/bin/ansible-galaxy install -r tests/container-environment/requirements.yml
+  - pip install -r tests/requirements.txt
 
 install:
   # Requirements for tests messaging_abstraction and messaging_components
@@ -37,22 +38,25 @@ install:
   - pip install -r requirements.txt
 
   # Setup test suite containers environment
-  # - source .venv_container_env/bin/activate && cd tests && make all && deactivate
+  - source .venv_container_env/bin/activate && cd tests && make all && deactivate
+  - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
+  - export BROKER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' broker1)
   - docker ps -a
 
-script:
-#  - py.test tests/selftests \
-#    --sender native --sender nodejs --sender python \
-#    --receiver native --receiver nodejs --receiver python \
-#    --router dispatch --router interconnect \
-#    --broker artemis --broker amq7  --broker amq6 \
-#    --tls tls10 --tls tls11 --tls tls12 --tls tls13 \
-#    --inventory /home/enkeys/ansible/hosts \
-#    -s --verbose s
+jobs:
+  include:
+    - stage: Messaging Abstraction module tests
+      script:
+        - py.test messaging_abstraction/tests
 
-  # Messaging Abstraction module tests
-  - py.test messaging_abstraction/tests
-  # Messaging Components module tests
-  - py.test messaging_components/tests
+    - stage: Messaging Components module tests
+      script:
+        - py.test messaging_components/tests
 
-  # Test suite
+    - stage: Router simple testsuite
+        # Test suite
+        - py.test test-suite/router \
+            --sender native \
+            --receiver native \
+            --inventory  \
+            -s --verbose
