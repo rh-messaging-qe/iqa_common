@@ -33,6 +33,10 @@ install:
   # Requirements for tests messaging_abstraction and messaging_components
   - pip install -r messaging_abstraction/tests/requirements.txt -r messaging_components/tests/requirements.txt -r tests/requirements.txt -r requirements.txt
 
+  # Debug purpose
+  - ansible --version
+  - docker --version
+
   # Setup test suite containers environment
   # - source .venv_container_env/bin/activate && cd tests && make all && deactivate
   - cd tests && make all
