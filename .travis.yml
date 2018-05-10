@@ -29,20 +29,6 @@ install:
   - virtualenv .venv_container_env/
   - source .venv_container_env/bin/activate
 
-  # Debug purpose
-  - ansible --version
-  - docker --version
-  - python -c 'import docker; d = docker.from_env(); print(d);'
-
-  # Setup test suite containers environment
-  # - source .venv_container_env/bin/activate && cd tests && make all && deactivate
-  - cd tests && make all
-  - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
-  - export BROKER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' broker1)
-
-  # Debug containers
-  - docker ps -a
-
   # Requirements for tests messaging_abstraction and messaging_components
   - |
     pip install -r messaging_abstraction/requirements.txt \
@@ -50,6 +36,20 @@ install:
                 -r messaging_abstraction/tests/requirements.txt \
                 -r messaging_components/tests/requirements.txt \
                 -r tests/requirements.txt
+
+  # Debug purpose
+  - ansible --version
+  - docker --version
+  - python -c 'import docker; d = docker.from_env(); print(d);'
+
+  # Setup test suite containers environment
+  - cd tests && make all
+  - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
+  - export BROKER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' broker1)
+
+  # Debug containers
+  - docker ps -a
+
 
 jobs:
   include:
@@ -60,12 +60,3 @@ jobs:
     - stage: Messaging Components module tests
       script:
         - py.test messaging_components/tests
-
-#    - stage: Router simple testsuite
-#      script:
-#        # Test suite
-#        - py.test test-suite/router \
-#            --sender native \
-#            --receiver native \
-#            --inventory  \
-#            -s --verbose
