@@ -23,15 +23,11 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
 
-  # Requirements for container environment
-  # - pip install virtualenv
-  # - virtualenv --python=/usr/bin/python2.7 .venv_container_env/
-  # - .venv_container_env/bin/pip install -r tests/requirements.txt
-  # - .venv_container_env/bin/ansible-galaxy install -r tests/container-environment/requirements.yml
-
 install:
-  # Requirements for tests messaging_abstraction and messaging_components
-  - pip install -r messaging_abstraction/tests/requirements.txt -r messaging_components/tests/requirements.txt -r tests/requirements.txt -r requirements.txt
+  # Activate virtualenv for topology setup
+  - pip install virtualenv
+  - virtualenv .venv_container_env/
+  - source .venv_container_env/bin/activate
 
   # Debug purpose
   - ansible --version
@@ -43,7 +39,17 @@ install:
   - cd tests && make all
   - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
   - export BROKER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' broker1)
+
+  # Debug containers
   - docker ps -a
+
+  # Requirements for tests messaging_abstraction and messaging_components
+  - |
+    pip install -r messaging_abstraction/requirements.txt \
+                -r messaging_components/requirements.txt \
+                -r messaging_abstraction/tests/requirements.txt \
+                -r messaging_components/tests/requirements.txt \
+                -r tests/requirements.txt
 
 jobs:
   include:
