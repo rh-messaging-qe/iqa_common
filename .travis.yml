@@ -1,7 +1,5 @@
 sudo: required
-
 language: python
-
 python:
   - "3.6"
 
@@ -9,12 +7,10 @@ addons:
   apt:
     packages:
       - python-pip
+      - python-dev
 
 services:
   - docker
-
-cache:
-  - pip
 
 before_install:
   # Docker-CE Installation
@@ -23,40 +19,25 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
 
-install:
-  # Activate virtualenv for topology setup
-  - pip install virtualenv
-  - virtualenv .venv_container_env/
-  - source .venv_container_env/bin/activate
-
-  # Requirements for tests messaging_abstraction and messaging_components
-  - |
-    pip install -r messaging_abstraction/requirements.txt \
-                -r messaging_components/requirements.txt \
-                -r messaging_abstraction/tests/requirements.txt \
-                -r messaging_components/tests/requirements.txt \
-                -r tests/requirements.txt
-
-  # Debug purpose
-  - ansible --version
-  - docker --version
-  - python -c 'import docker; d = docker.from_env(); print(d);'
-
-  # Setup test suite containers environment
-  - cd tests && make all
-  - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
-  - export BROKER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' broker1)
-
-  # Debug containers
-  - docker ps -a
-
-
 jobs:
   include:
-    - stage: Messaging Abstraction module tests
+    - stage: Messaging Abstraction module unit tests
       script:
+        - pip install -r messaging_abstraction/requirements.txt -r messaging_abstraction/tests/requirements.txt
         - py.test messaging_abstraction/tests
 
-    - stage: Messaging Components module tests
+    - stage: Messaging Components module unit tests
       script:
+        - pip install -r messaging_components/requirements.txt -r messaging_components/tests/requirements.txt
         - py.test messaging_components/tests
+
+    - stage: IQA Test Suite
+      script:
+        # Deploy components' containers to test
+        - cd tests && make all && cd ..
+
+        # Export variable for router IP 
+        - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
+        
+        # Run test suite
+        # 
