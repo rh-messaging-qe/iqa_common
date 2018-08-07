@@ -28,6 +28,7 @@ jobs:
 
     - stage: Messaging Components module unit tests
       script:
+        - pip install -r messaging_abstraction/requirements.txt -r messaging_abstraction/tests/requirements.txt
         - pip install -r messaging_components/requirements.txt -r messaging_components/tests/requirements.txt
         - py.test messaging_components/tests
 
