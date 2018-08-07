@@ -1,6 +1,18 @@
 # iQA Test suites
 ## Description
-iQA test suite is based on py.test runner and it's designed for testing messaging services.
+iQA test suite use messaging-abstration API for writing tests 
+and messaging-components for test integration with end software.
+
+Test suites is based on py.test tests runner but can be used any framework.
+
+## Needed
+1. Deploy the topology
+2. Describe the topology in Ansible Inventory file
+3. Related to test runner (Write conftest.py where is also needed describe parts from Ansible Inventory)
+    - Fixture for broker, client, router
+4. Write tests (with messgaging-abstraction call)
+
+It's designed for testing messaging services.
 
 ## Objectives
 - Modular
@@ -34,10 +46,6 @@ iQA test suite is based on py.test runner and it's designed for testing messagin
 virtualenv3 venv
 source venv/bin/activate
 ```
-### Install dependencies
-```
-pip install -r requirements.txt
-```
 
 ### Run self tests
 ```
@@ -54,13 +62,20 @@ pip install -r requirements.txt
 - native (core), nodejs, python 
 
 #### Receiver []
-- native (core), nodejs, python
+- native (core)
+- nodejs (cli-rhea)
+- python (cli-proton-python)
 
 #### Broker []
-- artemis, amq7, amq6
+- Artemis (AMQ7)
+- ActiveMQ AMQ6
+- Qpid Broker
 
 #### TLS []
-- tls10, tls11 tls12, tls13
+- tls10
+- tls11
+- tls12
+- tls13
 
 #### Inventory 
 - Path to Ansible inventory with hosts

@@ -1,4 +1,4 @@
-# Abstraction Messaging of Middleware (messaging_abstraction)
+# Abstraction Messaging of Middleware [AMOM_API] (messaging_abstraction)
 ## Description
 Abstract classes for messaging components like broker, clients, messages, queue, topics, routes.
 
@@ -8,14 +8,14 @@ Abstract classes for messaging components like broker, clients, messages, queue,
 - Broker
 - Router
 - Client 
- - Sender
- - Receiver
- - Connector
+  - Sender
+  - Receiver
+  - Connector
 
 ## Another abstract implementation
 - Queue
 - Addresses
 - Routing logic
-    - Any-cast
-    - Multi-cast
-    - Mixed (multi-cast + any-cast) 
+  - Anycast
+  - Multicast
+  - Mixed (multicast + anycast) 

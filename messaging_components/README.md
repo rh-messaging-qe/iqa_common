@@ -1,4 +1,5 @@
 # Messaging Components (messaging_components)
+
 ## Description
 Messaging components is based on Abstract Messaging of Middleware.
 
@@ -9,7 +10,6 @@ Messaging components is based on Abstract Messaging of Middleware.
     - Ansible module (future)
 - Management
 - Messaging product features (mainly for test coverage)
-
 
 ### Components
 - Node

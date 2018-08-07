@@ -1,8 +1,0 @@
-colorama
-colorlog
-autologging
-pytest
-pytest-logger
-odict
-optconstruct
-mock

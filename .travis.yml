@@ -38,6 +38,6 @@ jobs:
 
         # Export variable for router IP 
         - export ROUTER1=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' router1)
-        
+
         # Run test suite
         # 
