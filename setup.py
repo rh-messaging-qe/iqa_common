@@ -3,12 +3,15 @@
 
 """setup.py: setuptools control."""
 
-from setuptools import setup
+from setuptools import setup, find_packages
+
+files = ["*"]
 
 setup(
     name='iqa_common',
     version='0.1.1',
-    packages=['iqa_common'],
+    packages=find_packages(),
+    package_data={'iqa_common': files},
     license='Apache 2.0',
     description='',
     setup_requires=['pytest-runner'],
