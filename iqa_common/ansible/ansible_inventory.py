@@ -6,11 +6,12 @@ from ansible.template import Templar
 
 
 class AnsibleInventory(object):
-    def __init__(self, inventory: str=None):
+    def __init__(self, inventory: str=None, extra_vars: dict=None):
         self.inventory = inventory
         self.loader = DataLoader()
         self.inv_mgr = InventoryManager(loader=self.loader, sources=self.inventory)
         self.var_mgr = VariableManager(loader=self.loader, inventory=self.inv_mgr)
+        self.var_mgr.extra_vars = extra_vars
 
     def get_hosts_containing(self, var: str=None) -> list:
         hosts = []

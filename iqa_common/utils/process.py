@@ -27,9 +27,8 @@ class Process(subprocess.Popen):
         kwargs.setdefault('universal_newlines', True)
         try:
             super(Process, self).__init__(args, **kwargs)
-        except:
-            print('damn it')
-            traceback.print_tb()
+        except Exception as ex:
+            traceback.print_tb(tb=ex)
 
     def is_running(self):
         return self.poll() is None
