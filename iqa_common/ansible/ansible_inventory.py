@@ -2,6 +2,7 @@ from ansible.inventory.host import Host
 from ansible.inventory.manager import InventoryManager
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
+from ansible.template import Templar
 
 
 class AnsibleInventory(object):
@@ -31,4 +32,6 @@ class AnsibleInventory(object):
         return hosts
 
     def get_host_vars(self, host: Host):
-        return self.var_mgr.get_vars(host=host)
+        data = self.var_mgr.get_vars(host=host)
+        templar = Templar(variables=data, loader=self.loader)
+        return templar.template(data, fail_on_undefined=False)
