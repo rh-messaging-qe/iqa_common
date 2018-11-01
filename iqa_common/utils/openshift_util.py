@@ -53,7 +53,7 @@ class OpenShiftUtil(object):
         :param timeout:
         :return: The execution result.
         """
-        cmd_login = Command(args=['oc', 'login', self.url, '--token="%s"' % self.token,
+        cmd_login = Command(args=['oc', 'login', self.url, '--token', '%s' % self.token,
                                   '--insecure-skip-tls-verify=true'],
                             timeout=timeout, stderr=True, stdout=True)
         execution: Execution = self.executor.execute(cmd_login)
