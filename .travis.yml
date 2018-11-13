@@ -1,0 +1,19 @@
+sudo: required
+language: python
+python:
+  - "3.6"
+
+addons:
+  apt:
+    packages:
+      - python-pip
+      - python-dev
+
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: Test iqa_common
+      script:
+        - true

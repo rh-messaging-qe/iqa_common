@@ -1,0 +1,16 @@
+*.pyenv*
+logs
+build/
+dist/
+*.egg-info
+.idea
+*.py[co]
+*.idea
+*venv*
+*.log
+*.cache*
+*.eggs*
+*.tox*
+*.retry
+*.pytest_cache*
+*__pycache--*

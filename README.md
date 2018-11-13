@@ -1,9 +1,5 @@
-# iQA Test suite
+# IQA Common tools
+
 ## Description
-iQA test suite is based on py.test runner and it's designed for testing messaging services.
 
-# Target
-* Modular
-* Scalable
-## How to run
-
+Common code snippets/helpers for IQA test suites written in pytest.
