@@ -22,6 +22,7 @@ class ExecutorContainer(Executor):
         self.name = kwargs.get('executor_name', name)
         self.user = kwargs.get('executor_docker_user', container_user)
         self.docker_host = kwargs.get('executor_docker_host')
+        self.docker_network = kwargs.get('executor_docker_network')
 
     def _execute(self, command: Command):
 
