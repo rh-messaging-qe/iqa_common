@@ -47,6 +47,8 @@ class TimeoutCallback(threading.Thread):
         self.timeout = timeout
         self.callback_method = callback_method
         self._interrupted = False
+        self._timed_out = False
+        self._finished = threading.Event()
         self.started_at = time.time()
         self.start()
 
@@ -55,7 +57,14 @@ class TimeoutCallback(threading.Thread):
         Returns a bool indicating whether a timeout has occurred or not.
         :return:
         """
-        return time.time() - self.started_at > self.timeout
+        return self._timed_out
+
+    def interrupted(self):
+        """
+        Returns a bool indicating whether the callback has been interrupted or not.
+        :return:
+        """
+        return self._interrupted
 
     def run(self):
         """
@@ -63,8 +72,7 @@ class TimeoutCallback(threading.Thread):
         :return:
         """
         # Wait till interrupted or timed out
-        while not self._interrupted and not self.timed_out():
-            pass
+        self._finished.wait(self.timeout)
 
         if not self._interrupted and self.callback_method:
             if isinstance(self.callback_method, list):
@@ -80,3 +88,4 @@ class TimeoutCallback(threading.Thread):
         :return:
         """
         self._interrupted = True
+        self._finished.set()
