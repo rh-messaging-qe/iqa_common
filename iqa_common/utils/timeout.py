@@ -74,7 +74,14 @@ class TimeoutCallback(threading.Thread):
         # Wait till interrupted or timed out
         self._finished.wait(self.timeout)
 
-        if not self._interrupted and self.callback_method:
+        # If timed out
+        if not self._interrupted:
+
+            self._timed_out = True
+
+            if not self.callback_method:
+                return
+
             if isinstance(self.callback_method, list):
                 for callback_method in self.callback_method:
                     callback_method()
@@ -87,5 +94,6 @@ class TimeoutCallback(threading.Thread):
         task before a time out has occurred.
         :return:
         """
-        self._interrupted = True
-        self._finished.set()
+        if not self._timed_out:
+            self._interrupted = True
+            self._finished.set()
