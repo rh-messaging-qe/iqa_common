@@ -46,6 +46,7 @@ class Execution(Process):
         self.interrupted = False
 
         # Adjust time out settings if provided
+        self._timeout = None
         if command.timeout > 0:
             self._timeout = TimeoutCallback(command.timeout, self.on_timeout)
 
