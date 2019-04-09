@@ -2,9 +2,10 @@
 Interface for Node element. A node holds a running messaging component and it
 must provide some basic behaviors, like ping, get_ip and execute command.
 """
-
-from iqa_common.executor import Executor, Command, Execution
 import abc
+
+from iqa.system.command.command_base import Command
+from iqa.system.executor import Executor, Execution
 
 
 class Node:
