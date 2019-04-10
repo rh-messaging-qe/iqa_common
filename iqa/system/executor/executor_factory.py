@@ -1,5 +1,5 @@
-from iqa_common.executor import ExecutorLocal, ExecutorSsh, ExecutorContainer, ExecutorAnsible, Executor, \
-    ExecutorKubernetes
+from iqa.system.executor import Executor, ExecutorLocal, ExecutorSsh, ExecutorContainer, ExecutorAnsible
+from iqa.system.executor.executor_kubernetes import ExecutorKubernetes
 
 
 class ExecutorFactory(object):

@@ -1,8 +1,9 @@
-from messaging_components.node.node_docker import NodeDocker
+from iqa.system.executor import ExecutorAnsible, ExecutorContainer
+from iqa.system.node.node import Node
+from iqa.system.node.node_docker import NodeDocker
 from .node_local import *
 from .node_ansible import *
-from iqa_common.executor import *
-from messaging_abstract.node.node import Node
+
 import logging
 
 

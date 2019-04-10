@@ -1,7 +1,7 @@
 """ Custom logging overlay on the python logging
 """
 import logging
-import xtlog.config
+import iqa.utils.xtlog.config
 
 logger = logging.getLogger(__name__)
 

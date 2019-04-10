@@ -2,11 +2,11 @@
 Ansible Node implementation of Node Interface.
 """
 
-from iqa_common.executor import Executor
 import logging
 
-from iqa_common.utils.docker_util import DockerUtil
-from messaging_abstract.node.node import Node
+from iqa.system.executor import Executor
+from iqa.system.node import Node
+from iqa.utils.docker_util import DockerUtil
 
 
 class NodeDocker(Node):
@@ -39,6 +39,7 @@ class NodeDocker(Node):
                                                    docker_network)
         except:
             logging.debug("Unable to determine IP for container: %s" % self.executor.container_name)
+            # TODO fix this
             return None
 
         logging.debug("Container [%s] - IP [%s]" % (self.executor.container_name, ip))

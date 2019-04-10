@@ -2,11 +2,11 @@
 Ansible Node implementation of Node Interface.
 """
 
-from iqa_common.executor import Executor, Command, Execution, ExecutorAnsible, CommandAnsible
 import re
 import logging
 
-from messaging_abstract.node.node import Node
+from iqa.system.executor import Executor, CommandAnsible
+from iqa.system.node import Node
 
 
 class NodeAnsible(Node):

@@ -1,11 +1,13 @@
 from enum import Enum
 from typing import Union
 
-from iqa_common.executor import Command, Execution, ExecutorAnsible, CommandAnsible, ExecutorContainer, \
-    CommandContainer, Executor
-from iqa_common.utils.docker_util import DockerUtil
-from messaging_abstract.component import Service, ServiceStatus
+
 import logging
+
+from iqa.system.command.command_ansible import CommandAnsible
+from iqa.system.executor import ExecutorAnsible, ExecutorContainer, Execution, CommandContainer
+from iqa.system.service import Service, ServiceStatus
+from iqa.utils.docker_util import DockerUtil
 
 
 class ServiceDocker(Service):

@@ -1,12 +1,8 @@
-from messaging_abstract.component.server.server import *
-from messaging_abstract.component.server.router import *
-from messaging_abstract.component.server.broker import *
-from messaging_abstract.component.server.service import *
+from iqa.system.service.service import Service
 from .service_docker import *
 from .service_system_init import *
 from .service_systemd import *
 from .service_artemis import *
-from .serviceartemis import *
 
 import logging
 
@@ -47,7 +43,7 @@ class ServiceFactory(object):
             elif isinstance(executor, ExecutorAnsible):
                 ServiceFactory._logger.debug("Creating ServiceArtemis - name: %s - executor: %s"
                                              % (service_name, executor.__class__.__name__))
-                return ServiceArtemis(name=service_name, executor=executor, **kwargs)
+                return ServiceFakeArtemis(name=service_name, executor=executor, **kwargs)
 
             if container_name:
                 ServiceFactory._logger.debug("Creating ServiceDocker - name: %s - executor: %s"

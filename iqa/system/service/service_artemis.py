@@ -3,9 +3,11 @@ import re
 import logging
 import time
 from enum import Enum
-from iqa_common.executor import Command, Execution, ExecutorAnsible, CommandAnsible, Executor
-from iqa_common.utils.tcp_util import TcpUtil
-from messaging_abstract.component import ServiceFake, ServiceStatus
+
+from iqa.system.executor import Executor, Command, Execution, ExecutorAnsible, CommandAnsible
+from iqa.system.service.service import ServiceStatus
+from iqa.system.service.service_fake import ServiceFake
+from iqa.utils.tcp_util import TcpUtil
 
 
 class ServiceFakeArtemis(ServiceFake):
@@ -56,19 +58,19 @@ class ServiceFakeArtemis(ServiceFake):
         execution = self.executor.execute(cmd_status)
 
         if not execution.read_stdout():
-            ServiceArtemis._logger.debug("Service: %s - Status: FAILED" % self.name)
+            ServiceFakeArtemis._logger.debug("Service: %s - Status: FAILED" % self.name)
             return ServiceStatus.FAILED
 
         service_output = execution.read_stdout()
 
         if re.search('(is running|\(running\)|Running)', service_output):
-            ServiceArtemis._logger.debug("Service: %s - Status: RUNNING" % self.name)
+            ServiceFakeArtemis._logger.debug("Service: %s - Status: RUNNING" % self.name)
             return ServiceStatus.RUNNING
         elif re.search('(is stopped|\(dead\)|Stopped)', service_output):
-            ServiceArtemis._logger.debug("Service: %s - Status: STOPPED" % self.name)
+            ServiceFakeArtemis._logger.debug("Service: %s - Status: STOPPED" % self.name)
             return ServiceStatus.STOPPED
 
-        ServiceArtemis._logger.debug("Service: %s - Status: UNKNOWN" % self.name)
+        ServiceFakeArtemis._logger.debug("Service: %s - Status: UNKNOWN" % self.name)
         return ServiceStatus.UNKNOWN
 
     def start(self, wait_for_messaging=False) -> Execution:
@@ -94,15 +96,15 @@ class ServiceFakeArtemis(ServiceFake):
 
     @staticmethod
     def __tcp_wait_for_accessible_port(port, host):
-        for attempt in range(ServiceArtemis.MAX_ATTEMPTS):
-            if attempt == ServiceArtemis.MAX_ATTEMPTS - 1:
-                print("     broker is not reachable after %d attempts" % ServiceArtemis.MAX_ATTEMPTS)
+        for attempt in range(ServiceFakeArtemis.MAX_ATTEMPTS):
+            if attempt == ServiceFakeArtemis.MAX_ATTEMPTS - 1:
+                print("     broker is not reachable after %d attempts" % ServiceFakeArtemis.MAX_ATTEMPTS)
 
             if TcpUtil.is_tcp_port_available(int(port), host):
                 return True
 
-            time.sleep(ServiceArtemis.DELAY)
-        ServiceArtemis._logger.warning("Unable to connect to hostname:port: %s:%s" % (host, port))
+            time.sleep(ServiceFakeArtemis.DELAY)
+        ServiceFakeArtemis._logger.warning("Unable to connect to hostname:port: %s:%s" % (host, port))
         return False
 
     def _create_command(self, service_state: ServiceSystemState):

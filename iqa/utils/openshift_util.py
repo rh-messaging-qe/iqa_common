@@ -21,7 +21,7 @@
 Utility class to help executing OpenShift standard operations
 """
 import logging
-from iqa_common.executor import Executor, Execution, Command
+from iqa.system.executor import Executor, Execution, Command
 
 
 class OpenShiftUtil(object):

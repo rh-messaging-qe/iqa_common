@@ -5,9 +5,9 @@ import threading
 import abc
 from typing import IO
 
-from .command_base import Command
-from ..utils.process import Process
-from ..utils.timeout import TimeoutCallback
+from iqa.system.command.command_base import Command
+from iqa.utils.process import Process
+from iqa.utils.timeout import TimeoutCallback
 
 """
 Defines the representation of a command Execution that is generated

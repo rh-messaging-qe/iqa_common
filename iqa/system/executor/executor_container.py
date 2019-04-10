@@ -1,5 +1,5 @@
-from iqa_common.executor import CommandContainer
-from .command_base import Command
+from iqa.system.command.command_base import Command
+from iqa.system.command.command_container import CommandContainer
 from .executor_base import Executor
 from .execution import ExecutionProcess
 

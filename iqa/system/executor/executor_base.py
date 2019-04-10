@@ -1,4 +1,4 @@
-from .command_base import Command
+from iqa.system.command.command_base import Command
 from .execution import Execution
 from .execution import ExecutionProcess
 import logging

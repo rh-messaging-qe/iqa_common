@@ -1,8 +1,8 @@
 import re
 import logging
 from enum import Enum
-from iqa_common.executor import Command, Execution, ExecutorAnsible, CommandAnsible, Executor
-from messaging_abstract.component import Service, ServiceStatus
+from iqa.system.executor import Command, Execution, ExecutorAnsible, CommandAnsible, Executor
+from iqa.system.service import Service, ServiceStatus
 
 
 class ServiceSystemD(Service):

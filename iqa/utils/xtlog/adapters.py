@@ -1,5 +1,5 @@
 import logging
-import xtlog.levels as levels
+import iqa.utils.xtlog.levels as levels
 
 
 class XTLogAdapter(logging.LoggerAdapter, object):

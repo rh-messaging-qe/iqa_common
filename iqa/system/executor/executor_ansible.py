@@ -1,5 +1,5 @@
-from .command_ansible import CommandAnsible
-from .command_base import Command
+from iqa.system.command.command_ansible import CommandAnsible
+from iqa.system.command.command_base import Command
 from .executor_base import Executor
 from .execution import ExecutionProcess
 

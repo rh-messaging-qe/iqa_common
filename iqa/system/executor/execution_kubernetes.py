@@ -7,10 +7,12 @@ from kubernetes.stream.ws_client import WSClient
 from kubernetes import config, client
 from kubernetes.client.apis import core_v1_api
 from kubernetes.stream import stream
-from iqa_common.executor import Execution, Command, ExecutionException
 
 
 # Logger for ExecutionKubernetes
+from iqa.system.command.command_base import Command
+from iqa.system.executor import Execution, ExecutionException
+
 logger = logging.getLogger(__name__)
 urllib3.disable_warnings()
 

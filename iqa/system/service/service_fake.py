@@ -1,7 +1,7 @@
 import abc
 from enum import Enum
 
-from iqa_common.executor import Execution, Executor
+from iqa.system.executor import Executor, Execution
 from .service import Service
 
 

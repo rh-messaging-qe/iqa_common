@@ -1,4 +1,4 @@
-from iqa_common.executor import Command
+from iqa.system.command.command_base import Command
 
 
 class CommandAnsible(Command):

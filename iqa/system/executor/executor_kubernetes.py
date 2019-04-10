@@ -1,5 +1,7 @@
-from iqa_common.executor import Executor, Command, Execution, ExecutionKubernetes
 import os
+
+from iqa.system.command.command_base import Command
+from iqa.system.executor import Executor, Execution, ExecutionKubernetes
 
 
 class ExecutorKubernetes(Executor):
