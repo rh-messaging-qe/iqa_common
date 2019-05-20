@@ -29,7 +29,9 @@ class AnsibleInventory(object):
         self._logger.debug('Extra variables: %s' % extra_vars)
         self.inv_mgr = InventoryManager(loader=self.loader, sources=self.inventory)
         self.var_mgr = VariableManager(loader=self.loader, inventory=self.inv_mgr)
-        self.var_mgr.extra_vars = extra_vars or dict()
+        # TODO As of Ansible==2.8.0 the extra_vars property cannot be set to VariableManager
+        #      This needs to be investigated and fixed properly
+        self.extra_vars = extra_vars or dict()
 
     def get_hosts_containing(self, var: str=None) -> list:
         hosts = []
