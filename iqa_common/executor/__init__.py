@@ -2,10 +2,12 @@ from .command_base import *
 from .command_ansible import *
 from .command_container import *
 from .execution import *
+from .execution_kubernetes import *
 from .executor_base import *
 from .executor_ansible import *
 from .executor_ssh import *
 from .executor_container import *
+from .executor_kubernetes import *
 
 
 class ExecutorFactory(object):
